@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"prescription.tracker"},{"l":"prescription.tracker.configuration"},{"l":"prescription.tracker.exception"},{"l":"prescription.tracker.medication"},{"l":"prescription.tracker.user"}];updateSearchResults();
