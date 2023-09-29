@@ -28,9 +28,9 @@ public class Medication {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long medId;
 	private String  name;
-	private Integer remainingQuantity;
 	private Double dosage;
 	private Integer refills;
+	private Integer timesPerDay;
 	private LocalDate lastRefilled;
 	
 	//Join column annotation specifies the foreign key column (user_id) 
@@ -40,9 +40,9 @@ public class Medication {
 	private Long userId;
 	
 	
-	public void setRemainingQuantity(Integer remainingQuantity) {
+	public void setTimesPerDay(Integer timesPerDay) {
 		//ensures remaining quantity is non-negative
-		this.remainingQuantity = remainingQuantity < 0? 0 : remainingQuantity;
+		this.timesPerDay = timesPerDay < 0? 0 : timesPerDay;
 	}
 	
 	public void setDosage(Double dosage) {
