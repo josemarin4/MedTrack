@@ -34,6 +34,8 @@ public class User {
 	
 	private String username;
 	private String password;
+	private String confirmationToke;
+	private Boolean enabled;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Medication> medications;
