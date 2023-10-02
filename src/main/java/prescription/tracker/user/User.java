@@ -30,7 +30,7 @@ public class User {
 	
 	private String email;
 	private String password;
-	private String confirmationToke;
+	private String confirmationToken;
 	private Boolean enabled;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -38,13 +38,13 @@ public class User {
 	
 	public User() {}
 	
-	public User(long userId, String email, String password, String confirmationToke, Boolean enabled,
+	public User(long userId, String email, String password, String confirmationToken, Boolean enabled,
 			List<Medication> medications) {
 		super();
 		this.userId = userId;
 		setEmail(email);
 		setPassword(password);
-		this.confirmationToke = confirmationToke;
+		this.confirmationToken = confirmationToken;
 		this.enabled = enabled;
 		this.medications = medications;
 	}
