@@ -13,5 +13,10 @@ public class Token {
 	
 	private String value;
 	private LocalDateTime expirationDateTime;
+	
+	public boolean isExpired() {
+		
+		return LocalDateTime.now().isAfter(expirationDateTime);
+	}
 
 }
