@@ -8,9 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import prescription.tracker.medication.Medication;
 
 /**
@@ -23,8 +21,6 @@ import prescription.tracker.medication.Medication;
  * @author josemarin
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 public class User {
 	
@@ -40,7 +36,18 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Medication> medications;
 	
+	public User() {}
 	
+	public User(long userId, String email, String password, String confirmationToke, Boolean enabled,
+			List<Medication> medications) {
+		super();
+		this.userId = userId;
+		setEmail(email);
+		setPassword(password);
+		this.confirmationToke = confirmationToke;
+		this.enabled = enabled;
+		this.medications = medications;
+	}
 	
 	public void setEmail(String email) {
 		
