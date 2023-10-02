@@ -36,6 +36,8 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Medication> medications;
 	
+	private final Integer MIN_PASSWORD_LENGTH = 8;
+	private final Integer MAX_PASSWORD_LENGTH = 20;
 	/**
 	 * Default constructor for creating User instances.
 	 */
@@ -87,7 +89,8 @@ public class User {
 	 */
 	public void setPassword(String password) {
 		
-		if(password == null || password.length() < 8 || password.length() > 20) {
+		if(password == null || password.length() < MIN_PASSWORD_LENGTH
+				|| password.length() > MAX_PASSWORD_LENGTH) {
 			throw new IllegalArgumentException("Password: " + password + " is not valid");
 		}
 		
