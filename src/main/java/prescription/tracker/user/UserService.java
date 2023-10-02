@@ -38,8 +38,8 @@ public class UserService {
 	 * @throws DuplicateUserException if the username is already taken.
 	 */
 	public void register(User user) {
-		userRepo.findUserByUsername(user.getUsername()).orElseThrow(() -> {
-			return new DuplicateUserException("Username " + user.getUsername() + " already taken.");
+		userRepo.findUserByUsername(user.getEmail()).orElseThrow(() -> {
+			return new DuplicateUserException("Username " + user.getEmail() + " already taken.");
 		});
 		
 		String encodedPassword = passEncoder.encode(user.getPassword());
@@ -73,7 +73,7 @@ public class UserService {
 		});
 		
 		userToUpdate.setUserId(user.getUserId());
-		userToUpdate.setUsername(user.getUsername());
+		userToUpdate.setEmail(user.getEmail());
 		
 		String encodedPassword = passEncoder.encode(user.getPassword());
 		userToUpdate.setPassword(encodedPassword);
