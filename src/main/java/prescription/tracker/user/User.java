@@ -51,4 +51,13 @@ public class User {
 		this.email = email;
 		
 	}
+	
+	public void setPassword(String password) {
+		
+		if(password == null || password.length() < 8) {
+			return;
+		}
+		
+		this.password = password; 
+	}
 }
