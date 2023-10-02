@@ -61,7 +61,7 @@ public class User {
 	
 	public void setPassword(String password) {
 		
-		if(password == null || password.length() < 8) {
+		if(password == null || password.length() < 8 || password.length() > 20) {
 			return;
 		}
 		
