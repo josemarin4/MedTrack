@@ -59,7 +59,17 @@ public class User {
 		this.userId = userId;
 		setEmail(email);
 		setPassword(password);
+		
+		/**
+		 * The confirmation token used during the email confirmation process.
+		 * It ensures the validity of the user's email address.
+		 */
 		this.confirmationToken = confirmationToken;
+		
+		/**
+		 * Indicates whether the user's account is enabled.
+		 * An enabled account allows the user to log in and use the application.
+		 */
 		this.isEnabled = isEnabled;
 		this.medications = medications;
 	}
