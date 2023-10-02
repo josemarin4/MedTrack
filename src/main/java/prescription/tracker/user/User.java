@@ -31,21 +31,21 @@ public class User {
 	private String email;
 	private String password;
 	private String confirmationToken;
-	private Boolean enabled;
+	private Boolean isEnabled;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Medication> medications;
 	
 	public User() {}
 	
-	public User(long userId, String email, String password, String confirmationToken, Boolean enabled,
+	public User(long userId, String email, String password, String confirmationToken, Boolean isEnabled,
 			List<Medication> medications) {
 		super();
 		this.userId = userId;
 		setEmail(email);
 		setPassword(password);
 		this.confirmationToken = confirmationToken;
-		this.enabled = enabled;
+		this.isEnabled = isEnabled;
 		this.medications = medications;
 	}
 	
