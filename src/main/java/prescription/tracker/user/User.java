@@ -52,7 +52,7 @@ public class User {
 	public void setEmail(String email) {
 		
 		if(email == null || email.length() == 0) {
-			return;
+			throw new IllegalArgumentException("Email: " + email + " is not valid");
 		}
 		
 		this.email = email;
@@ -62,7 +62,7 @@ public class User {
 	public void setPassword(String password) {
 		
 		if(password == null || password.length() < 8 || password.length() > 20) {
-			return;
+			throw new IllegalArgumentException("Password: " + password + " is not valid");
 		}
 		
 		this.password = password; 
