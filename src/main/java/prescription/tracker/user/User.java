@@ -36,8 +36,21 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Medication> medications;
 	
+	/**
+	 * Default constructor for creating User instances.
+	 */
 	public User() {}
 	
+	/**
+	 * Parameterized constructor for creating User instances with initial data.
+	 * 
+	 * @param userId The unique identifier for the user.
+	 * @param email The user's email address.
+	 * @param password The user's password (securely hashed).
+	 * @param confirmationToken The confirmation token used during email confirmation.
+	 * @param isEnabled Indicates whether the user's account is enabled.
+	 * @param medications A list of medications associated with the user.
+	 */
 	public User(long userId, String email, String password, String confirmationToken, Boolean isEnabled,
 			List<Medication> medications) {
 		super();
@@ -49,6 +62,12 @@ public class User {
 		this.medications = medications;
 	}
 	
+	/**
+	 * Sets the user's email address after validation.
+	 * 
+	 * @param email The email address to set.
+	 * @throws IllegalArgumentException If the provided email is null or empty.
+	 */
 	public void setEmail(String email) {
 		
 		if(email == null || email.length() == 0) {
@@ -59,6 +78,13 @@ public class User {
 		
 	}
 	
+	
+	/**
+	 * Sets the user's password after validation.
+	 * 
+	 * @param password The password to set.
+	 * @throws IllegalArgumentException If the provided password is null or does not meet length criteria.
+	 */
 	public void setPassword(String password) {
 		
 		if(password == null || password.length() < 8 || password.length() > 20) {
