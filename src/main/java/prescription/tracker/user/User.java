@@ -39,4 +39,16 @@ public class User {
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Medication> medications;
+	
+	
+	
+	public void setEmail(String email) {
+		
+		if(email == null || email.length() == 0) {
+			return;
+		}
+		
+		this.email = email;
+		
+	}
 }
