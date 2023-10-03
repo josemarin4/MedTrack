@@ -1,5 +1,6 @@
 package prescription.tracker.user;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -31,6 +32,7 @@ public class User {
 	private String email;
 	private String password;
 	private String confirmationToken;
+	private LocalDateTime confirmationTokenExpiration;
 	private Boolean isEnabled;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
