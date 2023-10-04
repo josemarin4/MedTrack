@@ -1,10 +1,7 @@
 package prescription.tracker.user;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import prescription.tracker.exception.DuplicateUserException;
 import prescription.tracker.exception.UserNotFoundException;
-import prescription.tracker.util.Token;
-import prescription.tracker.util.TokenGenerator;
 /**
  * Service class responsible for managing user data in the MedTrack application.
  * It provides methods for retrieving, registering, removing, and updating user information.
@@ -32,26 +29,6 @@ public class UserService {
 			return new UserNotFoundException("User with ID: " + userId + " not found.");
 		});
 		return user;
-	}
-	
-	/**
-	 * Registers a new user.
-	 * @param user The user to register.
-	 * @throws DuplicateUserException if the email is already taken.
-	 */
-	public void register(User user) {
-		userRepo.findUserByUsername(user.getEmail()).orElseThrow(() -> {
-			return new DuplicateUserException("Username " + user.getEmail() + " already taken.");
-		});
-		
-		String encodedPassword = passEncoder.encode(user.getPassword());
-		user.setPassword(encodedPassword);
-		
-		Token token = TokenGenerator.generateToken();
-		user.setConfirmationToken(token.getValue());
-		user.setConfirmationTokenExpiration(token.getExpirationDateTime());
-		
-		userRepo.save(user);
 	}
 	
 	/**
