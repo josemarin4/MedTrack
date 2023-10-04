@@ -3,6 +3,7 @@ package prescription.tracker.registration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import prescription.tracker.email.EmailService;
 import prescription.tracker.exception.DuplicateUserException;
 import prescription.tracker.user.User;
 import prescription.tracker.util.Token;
@@ -13,9 +14,10 @@ public class RegistrationService {
 	
 	private RegistrationRepository registrationRepository;
 	private PasswordEncoder passwordEncoder;
+	private EmailService emailService;
 	
 	public RegistrationService(RegistrationRepository registrationRepository, 
-			PasswordEncoder passwordEncoder) {
+			PasswordEncoder passwordEncoder, EmailService emailService) {
 		this.registrationRepository = registrationRepository;
 		this.passwordEncoder = passwordEncoder;
 		
@@ -38,6 +40,8 @@ public class RegistrationService {
 		user.setConfirmationTokenExpiration(token.getExpirationDateTime());
 		
 		registrationRepository.save(user);
+		
+		emailService.sendConfirmationEmail(user.getEmail(), token.getValue());
 	}
 
 }
