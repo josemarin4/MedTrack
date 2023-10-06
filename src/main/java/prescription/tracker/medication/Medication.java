@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import prescription.tracker.user.User;
 
 /**
  * This class represents a Medication in the MedTrack application.
@@ -38,8 +39,8 @@ public class Medication {
 	//Join column annotation specifies the foreign key column (user_id) 
 	//in the medication table that references the user table.
 	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private Long userId;
+	@JoinColumn(name = "userId")
+	private User user;
 	
 	
 	public void setTimesPerDay(Integer timesPerDay) {
