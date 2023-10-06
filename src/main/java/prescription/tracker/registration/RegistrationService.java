@@ -1,5 +1,6 @@
 package prescription.tracker.registration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ public class RegistrationService {
 	
 	private RegistrationRepository registrationRepository;
 	private PasswordEncoder passwordEncoder;
+	@Autowired
 	private EmailService emailService;
 	
 	public RegistrationService(RegistrationRepository registrationRepository, 
@@ -28,9 +30,9 @@ public class RegistrationService {
 	 * @throws DuplicateUserException if the email is already taken.
 	 */
 	public User register(User user) {
-		registrationRepository.findUserByEmail(user.getEmail()).orElseThrow(() -> {
-			return new DuplicateUserException("Username " + user.getEmail() + " already taken.");
-		});
+//		registrationRepository.findUserByEmail(user.getEmail()).orElseThrow(() -> {
+//			return new DuplicateUserException("Username " + user.getEmail() + " already taken.");
+//		});
 		
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
