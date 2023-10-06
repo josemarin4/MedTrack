@@ -7,6 +7,7 @@ import org.thymeleaf.TemplateEngine;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+
 import org.thymeleaf.context.Context;
 
 @Service
