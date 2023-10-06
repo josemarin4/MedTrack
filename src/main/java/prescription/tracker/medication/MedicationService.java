@@ -99,7 +99,7 @@ public class MedicationService {
 		med.setDosage(medication.getDosage());
 		med.setLastRefilled(medication.getLastRefilled());
 		med.setTimesPerDay(medication.getTimesPerDay());
-		med.setUserId(medication.getUserId());
+		med.setUser(medication.getUser());
 		med.setQuantity(medication.getQuantity());
 		medicationRepo.save(med);
 		
