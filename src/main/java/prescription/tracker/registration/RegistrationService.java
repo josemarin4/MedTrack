@@ -27,7 +27,7 @@ public class RegistrationService {
 	 * @param user The user to register.
 	 * @throws DuplicateUserException if the email is already taken.
 	 */
-	public void register(User user) {
+	public User register(User user) {
 		registrationRepository.findUserByEmail(user.getEmail()).orElseThrow(() -> {
 			return new DuplicateUserException("Username " + user.getEmail() + " already taken.");
 		});
@@ -42,6 +42,7 @@ public class RegistrationService {
 		registrationRepository.save(user);
 		
 		emailService.sendConfirmationEmail(user.getEmail(), token.getValue());
+		return user;
 	}
 
 }
