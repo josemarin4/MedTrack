@@ -9,6 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 import prescription.tracker.medication.Medication;
 
@@ -23,6 +25,7 @@ import prescription.tracker.medication.Medication;
  */
 @Data
 @Entity
+@Table(name = "users")
 public class User {
 	
 	@Id
@@ -38,8 +41,9 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Medication> medications;
 	
-	private final Integer MIN_PASSWORD_LENGTH = 8;
-	private final Integer MAX_PASSWORD_LENGTH = 20;
+	@Transient
+	private static final Integer MIN_PASSWORD_LENGTH = 8;
+	
 	/**
 	 * Default constructor for creating User instances.
 	 */
@@ -101,8 +105,7 @@ public class User {
 	 */
 	public void setPassword(String password) {
 		
-		if(password == null || password.length() < MIN_PASSWORD_LENGTH
-				|| password.length() > MAX_PASSWORD_LENGTH) {
+		if(password == null || password.length() < MIN_PASSWORD_LENGTH) {
 			throw new IllegalArgumentException("Password: " + password + " is not valid");
 		}
 		
