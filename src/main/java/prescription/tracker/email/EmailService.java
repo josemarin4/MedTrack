@@ -1,5 +1,7 @@
 package prescription.tracker.email;
 
+import java.util.List;
+
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -7,6 +9,7 @@ import org.thymeleaf.TemplateEngine;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import prescription.tracker.medication.Medication;
 
 import org.thymeleaf.context.Context;
 
@@ -43,6 +46,26 @@ public class EmailService {
 		catch(MessagingException ex) {
 			ex.printStackTrace();
 
+		}
+	}
+	
+	public void sendLowMedicationsNotification(String recipientEmail, List<Medication> medications) {
+		
+		try {
+			MimeMessage message = javaMailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message);
+			
+		
+			helper.addTo(recipientEmail);
+			helper.setSubject("LOW MEDICATION ALERT");
+			helper.setText("You have 7 days of these prescription. It's time to order a refill. \n" 
+							+ "Medications: \n" + medications.toString());
+			
+			javaMailSender.send(message);
+			
+		}
+		catch(MessagingException ex) {
+			ex.printStackTrace();
 		}
 	}
 
