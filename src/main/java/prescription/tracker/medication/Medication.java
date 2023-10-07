@@ -1,8 +1,6 @@
 package prescription.tracker.medication;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -58,12 +56,5 @@ public class Medication {
 		//ensures refills is non-negative
 		this.refills = refills < 0? 0 : refills;
 	}
-	
-	public long quantityLeft() {
-		long daysBetween = ChronoUnit.DAYS.between(lastRefilled, LocalDate.now());
-		 return this.quantity - (timesPerDay * daysBetween);
-		
-	}
-	
 
 }
