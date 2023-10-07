@@ -31,9 +31,9 @@ public class RegistrationService {
 	 * @throws DuplicateUserException if the email is already taken.
 	 */
 	public User register(User user) {
-//		registrationRepository.findUserByEmail(user.getEmail()).orElseThrow(() -> {
-//			return new DuplicateUserException("Username " + user.getEmail() + " already taken.");
-//		});
+		if(registrationRepository.findUserByEmail(user.getEmail()).isPresent()) {
+			throw new DuplicateUserException("Email " + user.getEmail() + " already taken.");
+		}
 		
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
@@ -53,7 +53,14 @@ public class RegistrationService {
 		User user = registrationRepository.findUserByConfirmationToken(confirmationToken).orElseThrow(() ->
 				new UserNotFoundException("User with confirmation token: " + confirmationToken + " not found."));
 		
+		if(user.getIsEnabled()) {
+			throw new IllegalArgumentException("Account with email: " + user.getEmail() + " is already active.");
+		}
+		
+		user.setConfirmationToken(null);
+		user.setConfirmationTokenExpiration(null);
 		user.setIsEnabled(true);
+		registrationRepository.save(user);
 		return user;
 	}
 
