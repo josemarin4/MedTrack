@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import prescription.tracker.email.EmailService;
 import prescription.tracker.exception.DuplicateUserException;
+import prescription.tracker.exception.UserNotFoundException;
 import prescription.tracker.user.User;
 import prescription.tracker.util.Token;
 import prescription.tracker.util.TokenGenerator;
@@ -44,6 +45,15 @@ public class RegistrationService {
 		registrationRepository.save(user);
 		
 		emailService.sendConfirmationEmail(user.getEmail(), token.getValue());
+		return user;
+	}
+	
+	public User confirm(String confirmationToken) {
+		
+		User user = registrationRepository.findUserByConfirmationToken(confirmationToken).orElseThrow(() ->
+				new UserNotFoundException("User with confirmation token: " + confirmationToken + " not found."));
+		
+		user.setIsEnabled(true);
 		return user;
 	}
 
