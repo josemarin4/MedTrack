@@ -32,7 +32,7 @@ public class EmailService {
 			helper.setSubject("Confirm Your Email");
 			
 			Context context = new Context();
-			context.setVariable("confirmationLink", "/confirm?token=" + confirmationToken);
+			context.setVariable("confirmationLink", "http://localhost:8080/api/register/confirm?token=" + confirmationToken);
 			String emailContent = templateEngine.process("confirmationEmailTemplate", context);
 			
 			helper.setText(emailContent, true);
