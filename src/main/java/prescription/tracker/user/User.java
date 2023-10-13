@@ -102,7 +102,7 @@ public class User {
 	 */
 	public void setPassword(String password) {
 		
-		if(password == null || password.length() < MIN_PASSWORD_LENGTH) {
+		if(password == null || password.length() < MIN_PASSWORD_LENGTH || password.length() > MAX_PASSWORD_LENGTH) {
 			throw new IllegalArgumentException("Password: " + password + " is not valid");
 		}
 		
