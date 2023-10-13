@@ -17,7 +17,7 @@ public class UserTest {
 	}
 
 	@Test
-	public void testDefaultConstructor() {
+	public void shouldCreateEmptyUser() {
 		User user = new User();
 		
 		assertNull(user.getEmail());
@@ -30,7 +30,7 @@ public class UserTest {
 	}
 	
 	@Test
-	public void testParametizedConstructor() {
+	public void shouldCreateUserWithInitialValues() {
 		User user = new User(1L, "user@gmail.com", "password",false, null);
 		
 		assertEquals(1L, user.getUserId());
@@ -41,35 +41,35 @@ public class UserTest {
 	}
 	
 	@Test
-	public void testSettingValidEmail() {
+	public void shouldSetEmail() {
 		testUser.setEmail("email@gmail.com");
 		
 		assertEquals("email@gmail.com", testUser.getEmail());
 	}
 	
 	@Test 
-	public void testSettingEmptyEmail() {
+	public void shouldFailSetEmptyEmail() {
 		
 		assertThrows(IllegalArgumentException.class, () -> 
 				testUser.setEmail(""));
 	}
 	
 	@Test
-	public void testSettingNullEmail() {
+	public void shouldFailSetNullEmail() {
 		assertThrows(IllegalArgumentException.class, () -> 
 				testUser.setEmail(null));
 		
 	}
 	
 	@Test
-	public void testSettingValidPasssword() {
+	public void shouldSetPassword() {
 		testUser.setPassword("password");
 		
 		assertEquals("password", testUser.getPassword());
 	}
 	
 	@Test
-	public void testSettingEmptyPassword() {
+	public void shouldFailSetEmptyPassword() {
 		
 		assertThrows(IllegalArgumentException.class, () ->
 				testUser.setPassword(""));
@@ -77,7 +77,7 @@ public class UserTest {
 	}
 	
 	@Test
-	public void testSettingNullPassword() {
+	public void shouldFailSetNullPassword() {
 		
 		assertThrows(IllegalArgumentException.class, () -> 
 				testUser.setPassword(null));
