@@ -57,8 +57,8 @@ public class EmailService {
 			
 		
 			helper.addTo(recipientEmail);
-			helper.setSubject("LOW MEDICATION ALERT");
-			helper.setText("You have 7 days of these prescription. It's time to order a refill. \n" 
+			helper.setSubject("Low Medication Quantity Alert");
+			helper.setText("You have 7 days of dosis for these prescription. It's time to order a refill. \n" 
 							+ "Medications: \n" + medications.toString());
 			
 			javaMailSender.send(message);
