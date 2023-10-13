@@ -88,7 +88,7 @@ public class User {
 	 */
 	public void setEmail(String email) {
 		
-		if(email == null || email.length() == 0) {
+		if(email == null || email.length() == 0 || email.length() > MAX_EMAIL_LENGTH) {
 			throw new IllegalArgumentException("Email: " + email + " is not valid");
 		}
 		
