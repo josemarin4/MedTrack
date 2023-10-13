@@ -19,5 +19,16 @@ public class UserTest {
 		assertNull(user.getMedications());
 
 	}
+	
+	@Test
+	public void testParametizedConstructor() {
+		User user = new User(1L, "user@gmail.com", "password",false, null);
+		
+		assertEquals(1L, user.getUserId());
+		assertEquals("user@gmail.com", user.getEmail());
+		assertEquals("password", user.getPassword());
+		assertFalse(user.getIsEnabled());
+		assertNull(user.getMedications());
+	}
 
 }
