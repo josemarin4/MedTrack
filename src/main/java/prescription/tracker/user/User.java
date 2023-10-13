@@ -54,23 +54,16 @@ public class User {
 	 * 
 	 * @param userId The unique identifier for the user.
 	 * @param email The user's email address.
-	 * @param password The user's password (securely hashed).
-	 * @param confirmationToken The confirmation token used during email confirmation.
+	 * @param password The user's password
 	 * @param isEnabled Indicates whether the user's account is enabled.
 	 * @param medications A list of medications associated with the user.
 	 */
-	public User(long userId, String email, String password, String confirmationToken, Boolean isEnabled,
+	public User(long userId, String email, String password, Boolean isEnabled,
 			List<Medication> medications) {
 		super();
 		this.userId = userId;
 		setEmail(email);
 		setPassword(password);
-		
-		/**
-		 * The confirmation token used during the email confirmation process.
-		 * It ensures the validity of the user's email address.
-		 */
-		this.confirmationToken = confirmationToken;
 		
 		/**
 		 * Indicates whether the user's account is enabled.
