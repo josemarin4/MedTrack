@@ -36,6 +36,11 @@ public class User {
 	private String password;
 	private String confirmationToken;
 	private LocalDateTime confirmationTokenExpiration;
+	
+	/**
+	 * Indicates whether the user's account is enabled.
+	 * An enabled account allows the user to log in and use the application.
+	 */
 	private Boolean isEnabled;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -65,10 +70,6 @@ public class User {
 		setEmail(email);
 		setPassword(password);
 		
-		/**
-		 * Indicates whether the user's account is enabled.
-		 * An enabled account allows the user to log in and use the application.
-		 */
 		this.isEnabled = isEnabled;
 		this.medications = medications;
 	}
