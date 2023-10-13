@@ -39,5 +39,27 @@ public class UserTest {
 		assertFalse(user.getIsEnabled());
 		assertNull(user.getMedications());
 	}
+	
+	@Test
+	public void testSettingValidEmail() {
+		testUser.setEmail("email@gmail.com");
+		
+		assertEquals("email@gmail.com", testUser.getEmail());
+	}
+	
+	@Test 
+	public void testSettingEmptyEmail() {
+		
+		assertThrows(IllegalArgumentException.class, () -> 
+				testUser.setEmail(""));
+	}
+	
+	@Test
+	public void testSettingNullEmail() {
+		assertThrows(IllegalArgumentException.class, () -> 
+				testUser.setEmail(null));
+		
+	}
+	
 
 }
