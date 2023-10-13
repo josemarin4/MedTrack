@@ -61,5 +61,27 @@ public class UserTest {
 		
 	}
 	
+	@Test
+	public void testSettingValidPasssword() {
+		testUser.setPassword("password");
+		
+		assertEquals("password", testUser.getPassword());
+	}
+	
+	@Test
+	public void testSettingEmptyPassword() {
+		
+		assertThrows(IllegalArgumentException.class, () ->
+				testUser.setPassword(""));
+		
+	}
+	
+	@Test
+	public void testSettingNullPassword() {
+		
+		assertThrows(IllegalArgumentException.class, () -> 
+				testUser.setPassword(null));
+	}
+	
 
 }
