@@ -1,19 +1,25 @@
 package prescripcion.tracker.test.user;
 
+import prescription.tracker.medication.Medication;
 import prescription.tracker.user.User;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 
 public class UserTest {
 	
 	private User testUser;
+	private Medication testMedication;
 	
 	@BeforeEach
 	public void setUp() {
 		testUser = new User();
+		testMedication = new Medication();
+		testMedication.setUser(testUser);
 	}
 
 	@Test
@@ -81,6 +87,26 @@ public class UserTest {
 		
 		assertThrows(IllegalArgumentException.class, () -> 
 				testUser.setPassword(null));
+	}
+	
+	@Test
+	public void shouldAddMedicationToUser() {
+		testUser.setMedications(new ArrayList<>());
+		testUser.getMedications().add(testMedication);
+		
+		assertEquals(1, testUser.getMedications().size());
+		assertEquals(testUser, testMedication.getUser());
+	}
+	
+	@Test
+	public void shouldRemoveMedicationFromUser() {
+		testUser.setMedications(new ArrayList<>());
+		testUser.getMedications().add(testMedication);
+		
+		testUser.getMedications().remove(testMedication);
+		
+		assertTrue(testUser.getMedications().isEmpty());
+		
 	}
 	
 
