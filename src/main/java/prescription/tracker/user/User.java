@@ -49,6 +49,9 @@ public class User {
 	@Transient
 	private static final Integer MIN_PASSWORD_LENGTH = 8;
 	
+	@Transient
+	private static final Integer MAX_PASSWORD_LENGTH = 64;
+	
 	/**
 	 * Default constructor for creating User instances.
 	 */
