@@ -43,7 +43,7 @@ public class User {
 	 * Indicates whether the user's account is enabled.
 	 * An enabled account allows the user to log in and use the application.
 	 */
-	private Boolean isEnabled;
+	private boolean isEnabled;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Medication> medications;
