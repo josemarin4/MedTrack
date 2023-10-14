@@ -1,6 +1,7 @@
 package prescription.tracker.user;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -59,7 +60,10 @@ public class User {
 	/**
 	 * Default constructor for creating User instances.
 	 */
-	public User() {}
+	public User() {
+		medications = new ArrayList<>();
+		isEnabled = false;
+	}
 	
 	/**
 	 * Parameterized constructor for creating User instances with initial data.
