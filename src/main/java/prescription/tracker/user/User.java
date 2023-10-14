@@ -12,6 +12,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.Data;
+import prescription.tracker.exception.MedicationNotFoundException;
 import prescription.tracker.medication.Medication;
 
 /**
@@ -123,6 +124,14 @@ public class User {
 		}
 		
 		medications.add(medication);
+	}
+	
+	public void removeMedication(Medication medication) {
+		if(medication == null || !medications.contains(medication)) {
+			throw new MedicationNotFoundException("Medication " + medication + " not found");
+		}
+		
+		medications.remove(medication);
 	}
 	
 }
