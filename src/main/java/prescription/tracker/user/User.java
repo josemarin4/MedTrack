@@ -82,7 +82,7 @@ public class User {
 		setPassword(password);
 		
 		this.isEnabled = isEnabled;
-		this.medications = medications;
+		this.medications = new ArrayList<>(medications);
 	}
 	
 	/**
@@ -117,6 +117,9 @@ public class User {
 		this.password = password; 
 	}
 	
+	public List<Medication> getMedications(){
+		return new ArrayList<>(medications);
+	}
 	public void addMedication(Medication medication) {
 		
 		if(medication == null) {
