@@ -70,7 +70,7 @@ public class UserTest {
 	}
 	
 	@Test
-	public void shoulFailSetEmailTooLong() {
+	public void shoulFailSetTooLongEmail() {
 		assertThrows(IllegalArgumentException.class, () ->
 				testUser.setEmail(Arrays.toString(new int[321])));
 	}
@@ -95,6 +95,14 @@ public class UserTest {
 		
 		assertThrows(IllegalArgumentException.class, () -> 
 				testUser.setPassword(null));
+	}
+	
+	@Test
+	public void shouldFailSetTooLongPassword() {
+		
+		assertThrows(IllegalArgumentException.class, () ->
+				testUser.setPassword(Arrays.toString(new int[65])));
+		
 	}
 	
 	@Test
