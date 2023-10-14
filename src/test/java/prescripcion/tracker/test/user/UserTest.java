@@ -122,6 +122,13 @@ public class UserTest {
 	}
 	
 	@Test
+	public void shouldFailAddDuplicateMedication() {
+		testUser.addMedication(testMedication);
+		
+		assertThrows(IllegalArgumentException.class, () ->
+				testUser.addMedication(testMedication));
+	}
+	@Test
 	public void shouldRemoveMedicationFromUser() {
 		testUser.setMedications(new ArrayList<>());
 		testUser.addMedication(testMedication);
