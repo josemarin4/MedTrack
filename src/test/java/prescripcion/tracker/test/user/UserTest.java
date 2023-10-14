@@ -115,6 +115,13 @@ public class UserTest {
 	}
 	
 	@Test
+	public void shouldFailAddNullMedication() {
+		testMedication = null;
+		assertThrows(IllegalArgumentException.class, () ->
+				testUser.addMedication(testMedication));
+	}
+	
+	@Test
 	public void shouldRemoveMedicationFromUser() {
 		testUser.setMedications(new ArrayList<>());
 		testUser.addMedication(testMedication);
