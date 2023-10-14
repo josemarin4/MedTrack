@@ -128,6 +128,7 @@ public class User {
 		}
 		
 		medications.add(medication);
+		medication.setUser(this);
 	}
 	
 	public void removeMedication(Medication medication) {
@@ -136,6 +137,7 @@ public class User {
 		}
 		
 		medications.remove(medication);
+		medication.setUser(null);
 	}
 	
 }

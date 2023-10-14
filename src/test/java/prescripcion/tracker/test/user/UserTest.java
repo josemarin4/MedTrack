@@ -92,7 +92,7 @@ public class UserTest {
 	@Test
 	public void shouldAddMedicationToUser() {
 		testUser.setMedications(new ArrayList<>());
-		testUser.getMedications().add(testMedication);
+		testUser.addMedication(testMedication);
 		
 		assertEquals(1, testUser.getMedications().size());
 		assertEquals(testUser, testMedication.getUser());
@@ -101,9 +101,9 @@ public class UserTest {
 	@Test
 	public void shouldRemoveMedicationFromUser() {
 		testUser.setMedications(new ArrayList<>());
-		testUser.getMedications().add(testMedication);
+		testUser.addMedication(testMedication);
 		
-		testUser.getMedications().remove(testMedication);
+		testUser.removeMedication(testMedication);
 		
 		assertTrue(testUser.getMedications().isEmpty());
 		
