@@ -58,7 +58,7 @@ public class User {
 	private static final Integer MAX_EMAIL_LENGTH = 320;
 	
 	/**
-	 * Default constructor for creating User instances.
+	 * Default constructor. Initializes an empty list of medications and sets account as disabled.
 	 */
 	public User() {
 		medications = new ArrayList<>();
@@ -117,9 +117,21 @@ public class User {
 		this.password = password; 
 	}
 	
+	/**
+	 * Retrieves a defensive copy of user's medications.
+	 * 
+	 * @return List of user's medications.
+	 */
 	public List<Medication> getMedications(){
 		return new ArrayList<>(medications);
 	}
+	
+	/**
+	 * Adds a medication to the user's list.
+	 * 
+	 * @param medication Medication to be added.
+	 * @throws IllegalArgumentException If medication is null or already added.
+	 */
 	public void addMedication(Medication medication) {
 		
 		if(medication == null) {
@@ -134,6 +146,12 @@ public class User {
 		medication.setUser(this);
 	}
 	
+	/**
+	 * Removes a medication from the user's list.
+	 * 
+	 * @param medication Medication to be removed.
+	 * @throws MedicationNotFoundException If medication is null or not found.
+	 */
 	public void removeMedication(Medication medication) {
 		if(medication == null || !medications.contains(medication)) {
 			throw new MedicationNotFoundException("Medication " + medication + " not found");
