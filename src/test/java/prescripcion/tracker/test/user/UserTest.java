@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 
@@ -30,20 +32,20 @@ public class UserTest {
 		assertNull(user.getPassword());
 		assertNull(user.getConfirmationToken());
 		assertNull(user.getConfirmationTokenExpiration());
-		assertNull(user.getIsEnabled());
-		assertNull(user.getMedications());
+		assertFalse(user.getIsEnabled());
+		assertEquals(0, user.getMedications().size());
 
 	}
 	
 	@Test
 	public void shouldCreateUserWithInitialValues() {
-		User user = new User(1L, "user@gmail.com", "password",false, null);
+		User user = new User(1L, "user@gmail.com", "password",false, List.of());
 		
 		assertEquals(1L, user.getUserId());
 		assertEquals("user@gmail.com", user.getEmail());
 		assertEquals("password", user.getPassword());
 		assertFalse(user.getIsEnabled());
-		assertNull(user.getMedications());
+		assertEquals(0, user.getMedications().size());
 	}
 	
 	@Test
@@ -65,6 +67,12 @@ public class UserTest {
 		assertThrows(IllegalArgumentException.class, () -> 
 				testUser.setEmail(null));
 		
+	}
+	
+	@Test
+	public void shoulFailSetEmailTooLong() {
+		assertThrows(IllegalArgumentException.class, () ->
+				testUser.setEmail(Arrays.toString(new int[321])));
 	}
 	
 	@Test
