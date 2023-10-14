@@ -33,6 +33,8 @@ public class Medication {
 	private Integer refills;
 	private Integer timesPerDay;
 	private LocalDate lastRefilled;
+	private LocalDate reminderDays;
+	private LocalDate reminderDate;
 	
 	//Join column annotation specifies the foreign key column (user_id) 
 	//in the medication table that references the user table.
