@@ -111,4 +111,18 @@ public class User {
 		
 		this.password = password; 
 	}
+	
+	public void addMedication(Medication medication) {
+		
+		if(medication == null) {
+			throw new IllegalArgumentException("Trying to add a null medication");
+		}
+		
+		if(medications.contains(medication)) {
+			throw new IllegalArgumentException("Trying to add duplicate medication");
+		}
+		
+		medications.add(medication);
+	}
+	
 }
