@@ -5,7 +5,7 @@ import prescription.tracker.user.User;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+import prescription.tracker.exception.MedicationNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -128,6 +128,7 @@ public class UserTest {
 		assertThrows(IllegalArgumentException.class, () ->
 				testUser.addMedication(testMedication));
 	}
+	
 	@Test
 	public void shouldRemoveMedicationFromUser() {
 		testUser.setMedications(new ArrayList<>());
@@ -137,6 +138,22 @@ public class UserTest {
 		
 		assertTrue(testUser.getMedications().isEmpty());
 		
+	}
+	
+	@Test
+	public void shouldFailRemoveNullMedication() {
+		testMedication = null;
+		
+		assertThrows(MedicationNotFoundException.class, () ->
+				testUser.removeMedication(testMedication));
+	}
+	
+	@Test
+	public void shouldFailNotFoundMedication() {
+		Medication med = new Medication();
+		
+		assertThrows(MedicationNotFoundException.class, () ->
+				testUser.removeMedication(med));
 	}
 	
 
