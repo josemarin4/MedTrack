@@ -33,8 +33,10 @@ public class Medication {
 	private Integer refills;
 	private Integer timesPerDay;
 	private LocalDate lastRefilled;
-	private LocalDate reminderDays;
+	private int reminderDays;
 	private LocalDate reminderDate;
+	
+	private static final int DEFAULT_REMINDER_DAYS = 7;
 	
 	//Join column annotation specifies the foreign key column (user_id) 
 	//in the medication table that references the user table.
@@ -57,6 +59,16 @@ public class Medication {
 	public void setRefills(Integer refills) {
 		//ensures refills is non-negative
 		this.refills = refills < 0? 0 : refills;
+	}
+	
+	public void setReminderDays(int reminderDays) {
+		
+		if(reminderDays < 0) {
+			this.reminderDays = DEFAULT_REMINDER_DAYS;
+		}
+		else {
+			this.reminderDays = reminderDays;
+		}
 	}
 
 }
