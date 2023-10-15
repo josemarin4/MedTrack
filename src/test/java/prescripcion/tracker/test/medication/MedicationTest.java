@@ -52,5 +52,19 @@ public class MedicationTest {
 		assertEquals("name", testMedication.getName());
 	}
 	
+	@Test
+	public void shouldFailSetNullName() {
+		
+		assertThrows(IllegalArgumentException.class, () ->
+				testMedication.setName(null));
+	}
+	
+	@Test
+	public void shouldFailSetEmptyName() {
+		
+		assertThrows(IllegalArgumentException.class, () ->
+				testMedication.setName(""));
+	}
+	
 	
 }
