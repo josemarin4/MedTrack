@@ -66,5 +66,13 @@ public class MedicationTest {
 				testMedication.setName(""));
 	}
 	
+	@Test
+	public void shoulSetValidDosage() {
+		
+		testMedication.setDosage(4.55);
+		
+		assertEquals(4.55, testMedication.getDosage());
+	}
+	
 	
 }
