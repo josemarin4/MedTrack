@@ -9,9 +9,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.AccessLevel;
 import prescription.tracker.user.User;
 
 /**
@@ -21,12 +21,12 @@ import prescription.tracker.user.User;
  * @author josemarin
  */
 @Data
-@NoArgsConstructor
 @Entity
 public class Medication {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Setter(AccessLevel.NONE)
 	private Long medId;
 	private String  name;
 	private double dosage;
@@ -35,9 +35,10 @@ public class Medication {
 	private int timesPerDay;
 	private LocalDate lastRefilled;
 	private int reminderDays;
+	
+	@Setter(AccessLevel.NONE)
 	private LocalDate reminderDate;
 	
-	private static final int DEFAULT_REMINDER_DAYS = 7;
 	private static final int DEFAULT_QUANTITY = 0;
 	
 	//Join column annotation specifies the foreign key column (user_id) 
@@ -46,63 +47,87 @@ public class Medication {
 	@JoinColumn(name = "userId")
 	private User user;
 	
-	public Medication(Long medId, String name, Double dosage, Integer quantity, Integer refills, Integer timesPerDay,
+	public Medication() {
+		this.lastRefilled = LocalDate.now();
+	}
+	
+	public Medication(Long medId, String name, double dosage, int quantity, int refills, int timesPerDay,
 			LocalDate lastRefilled, int reminderDays, User user) {
 		this.medId = medId;
-		this.name = name;
+		setName(name);
 		setDosage(dosage);
-		this.quantity = quantity;
+		setQuantity(quantity);
 		setRefills(refills);
 		setTimesPerDay(timesPerDay);
-		this.lastRefilled = lastRefilled;
+		setLastRefilled(lastRefilled);
 		setReminderDays(reminderDays);
-		calculateReminderDate();
 		this.user = user;
 	}
 	
-	public void setTimesPerDay(Integer timesPerDay) {
-		if(timesPerDay == null || timesPerDay < 0) {
-			this.timesPerDay = DEFAULT_QUANTITY;
-		}
-		else {
-			this.timesPerDay = timesPerDay;
-		}
-	}
 	
-	public void setDosage(Double dosage) {
+	public void setName(String name) {
 		
-		if(dosage == null || dosage < 0) {
-			this.dosage = (double) DEFAULT_QUANTITY;
+		if(name == null || name.length() == 0) {
+			throw new IllegalArgumentException("Invalid medication name");
 		}
-		else {
-			this.dosage = dosage;
-		}
+		
+		this.name = name;
+	}
+	public void setTimesPerDay(int timesPerDay) {
+		
+		this.timesPerDay = timesPerDay < 0 ? DEFAULT_QUANTITY : timesPerDay;
+		updateReminderDate();
 	}
 	
-	public void setRefills(Integer refills) {
-		if(refills == null || refills < 0) {
-			this.refills = DEFAULT_QUANTITY;
-		}
-		else {
-			this.refills = refills;
-		}
+	public void setDosage(double dosage) {
+		
+		this.dosage = dosage < 0 ? DEFAULT_QUANTITY : dosage;
 	}
 	
+	public void setRefills(int refills) {
+		
+		this.refills = refills < 0 ? DEFAULT_QUANTITY : refills;
+	}
+	
+	public void setQuantity(int quantity) {
+		
+		this.quantity = quantity < 0 ? DEFAULT_QUANTITY : quantity;
+		updateReminderDate();
+	}
 	public void setReminderDays(int reminderDays) {
 		
-		if(reminderDays < 0) {
-			this.reminderDays = DEFAULT_REMINDER_DAYS;
+		if(reminderDays <= 0) {
+			throw new IllegalArgumentException("Reminder days should be a positive number");
 		}
-		else {
-			this.reminderDays = reminderDays;
-		}
+		
+		this.reminderDays = reminderDays;
+		updateReminderDate();
+		
 	}
 	
-	private void calculateReminderDate() {
+	public void setLastRefilled(LocalDate lastRefilled) {
 		
-		long ammonutToRemind = timesPerDay * reminderDays;
-		long pillsLeft = quantity - ammonutToRemind;
+		if(lastRefilled == null) {
+			throw new IllegalStateException("Not a valid date");
+		}
+		
+		this.lastRefilled = lastRefilled;
+	}
+	
+	private void updateReminderDate() {
+		
+		long amountToRemind = timesPerDay * reminderDays;
+		
+		if(amountToRemind > quantity) {
+			throw new IllegalStateException("Not enough medication to set reminder duration");
+		}
+		
+		if(timesPerDay == 0) {
+			throw new IllegalStateException("Times per day has to be positive");
+		}
+		long pillsLeft = quantity - amountToRemind;
 		long days = pillsLeft / timesPerDay;
+		
 		reminderDate = ChronoUnit.DAYS.addTo(lastRefilled, days);
 		
 	}
