@@ -74,5 +74,13 @@ public class MedicationTest {
 		assertEquals(4.55, testMedication.getDosage());
 	}
 	
+	@Test
+	public void shouldKeepDefaultValueSetNegativeDosage() {
+		
+		testMedication.setDosage(-1);
+		
+		assertEquals(0, testMedication.getDosage());
+	}
+	
 	
 }
