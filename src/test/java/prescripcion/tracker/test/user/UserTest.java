@@ -32,7 +32,7 @@ public class UserTest {
 		assertNull(user.getPassword());
 		assertNull(user.getConfirmationToken());
 		assertNull(user.getConfirmationTokenExpiration());
-		assertFalse(user.getIsEnabled());
+		assertFalse(user.isEnabled());
 		assertEquals(0, user.getMedications().size());
 
 	}
@@ -44,7 +44,7 @@ public class UserTest {
 		assertEquals(1L, user.getUserId());
 		assertEquals("user@gmail.com", user.getEmail());
 		assertEquals("password", user.getPassword());
-		assertFalse(user.getIsEnabled());
+		assertFalse(user.isEnabled());
 		assertEquals(0, user.getMedications().size());
 	}
 	
