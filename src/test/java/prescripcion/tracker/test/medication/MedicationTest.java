@@ -90,4 +90,12 @@ public class MedicationTest {
 		assertEquals(5, testMedication.getRefills());
 	}
 	
+	@Test
+	public void shouldKeepDefaultValueSetNegativeRefills() {
+		
+		testMedication.setRefills(-10);
+		
+		assertEquals(0, testMedication.getRefills());
+	}
+	
 }
