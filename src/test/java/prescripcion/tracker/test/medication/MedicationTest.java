@@ -122,4 +122,12 @@ public class MedicationTest {
 		assertEquals(10, testMedication.getReminderDays());
 	}
 	
+	@Test
+	public void shouldKeepDefaulstValueSetNegativeReminderDays() {
+		
+		testMedication.setReminderDays(-50);
+		
+		assertEquals(0, testMedication.getReminderDays());
+	}
+	
 }
