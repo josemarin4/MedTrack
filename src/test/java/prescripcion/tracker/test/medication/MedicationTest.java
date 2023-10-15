@@ -98,4 +98,12 @@ public class MedicationTest {
 		assertEquals(0, testMedication.getRefills());
 	}
 	
+	@Test
+	public void shouldSetValidQuantity() {
+		
+		testMedication.setQuantity(30);
+		
+		assertEquals(30, testMedication.getQuantity());
+	}
+	
 }
