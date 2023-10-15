@@ -54,11 +54,11 @@ public class Medication {
 	public Medication(Long medId, String name, double dosage, int quantity, int refills, int timesPerDay,
 			LocalDate lastRefilled, int reminderDays, User user) {
 		this.medId = medId;
+		setTimesPerDay(timesPerDay);
 		setName(name);
 		setDosage(dosage);
 		setQuantity(quantity);
 		setRefills(refills);
-		setTimesPerDay(timesPerDay);
 		setLastRefilled(lastRefilled);
 		setReminderDays(reminderDays);
 		this.user = user;
@@ -75,8 +75,11 @@ public class Medication {
 	}
 	public void setTimesPerDay(int timesPerDay) {
 		
-		this.timesPerDay = timesPerDay < 0 ? DEFAULT_QUANTITY : timesPerDay;
-		updateReminderDate();
+		if(timesPerDay > 0) {
+			this.timesPerDay = timesPerDay;
+			updateReminderDate();
+			
+		}
 	}
 	
 	public void setDosage(double dosage) {
@@ -115,7 +118,7 @@ public class Medication {
 	}
 	
 	private void updateReminderDate() {
-		
+		if(lastRefilled != null) {
 		long amountToRemind = timesPerDay * reminderDays;
 		
 		if(amountToRemind > quantity) {
@@ -129,6 +132,7 @@ public class Medication {
 		long days = pillsLeft / timesPerDay;
 		
 		reminderDate = ChronoUnit.DAYS.addTo(lastRefilled, days);
+		}
 		
 	}
 
