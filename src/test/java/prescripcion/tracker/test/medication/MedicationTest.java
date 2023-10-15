@@ -6,11 +6,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 public class MedicationTest {
 
+	private static final Clock FIXED_CLOCK = Clock.fixed(Instant.now(), ZoneId.systemDefault());
 	private Medication testMedication;
 	
 	@BeforeEach
@@ -75,11 +79,11 @@ public class MedicationTest {
 	}
 	
 	@Test
-	public void shouldKeepDefaultValueSetNegativeDosage() {
+	public void shouldFailSetNegativeDosage() {
 		
-		testMedication.setDosage(-1);
+		assertThrows(IllegalArgumentException.class, () ->
+				testMedication.setDosage(-1));
 		
-		assertEquals(0, testMedication.getDosage());
 	}
 	
 	@Test
@@ -91,11 +95,11 @@ public class MedicationTest {
 	}
 	
 	@Test
-	public void shouldKeepDefaultValueSetNegativeRefills() {
+	public void shouldFailSetNegativeRefills() {
 		
-		testMedication.setRefills(-10);
+		assertThrows(IllegalArgumentException.class, () ->
+				testMedication.setRefills(-10));
 		
-		assertEquals(0, testMedication.getRefills());
 	}
 	
 	@Test
@@ -107,11 +111,11 @@ public class MedicationTest {
 	}
 	
 	@Test
-	public void shouldKeepDefaultValueSetNegativeQuantity() {
+	public void shouldFailSetNegativeQuantity() {
 		
-		testMedication.setQuantity(-100);
+		assertThrows(IllegalArgumentException.class, () ->
+				testMedication.setQuantity(-100));
 		
-		assertEquals(0, testMedication.getQuantity());
 	}
 	
 	@Test
@@ -123,28 +127,42 @@ public class MedicationTest {
 	}
 	
 	@Test
-	public void shouldKeepDefaulstValueSetNegativeReminderDays() {
+	public void shouldFailSetNegativeReminderDays() {
 		
-		testMedication.setReminderDays(-50);
-		
-		assertEquals(0, testMedication.getReminderDays());
+		assertThrows(IllegalArgumentException.class, () ->
+				testMedication.setReminderDays(-50));
 	}
 	
 	@Test
 	public void shouldSetValidLastRefilled() {
 		
-		testMedication.setLastRefilled(LocalDate.now());
+		testMedication.setLastRefilled(LocalDate.now(FIXED_CLOCK));
 		
-		assertEquals(LocalDate.now(), testMedication.getLastRefilled());
+		assertEquals(LocalDate.now(FIXED_CLOCK), testMedication.getLastRefilled());
 		
 	}
 	
 	@Test
 	public void shouldFailSetNullLastRefilled() {
 		
-		assertThrows(IllegalStateException.class, () ->
+		assertThrows(IllegalArgumentException.class, () ->
 				testMedication.setLastRefilled(null));
 
+	}
+	
+	@Test
+	public void shouldSetValidTimesPerDay() {
+		
+		testMedication.setTimesPerDay(3);
+		
+		assertEquals(3, testMedication.getTimesPerDay());
+	}
+	
+	@Test
+	public void shouldFailSettingNegativeimesPerDay() {
+		
+		assertThrows(IllegalArgumentException.class, () ->
+				testMedication.setTimesPerDay(-10));
 	}
 	
 }
