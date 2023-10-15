@@ -11,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.Data;
 import prescription.tracker.exception.MedicationNotFoundException;
 import prescription.tracker.medication.Medication;
@@ -48,13 +47,10 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Medication> medications;
 	
-	@Transient
 	private static final Integer MIN_PASSWORD_LENGTH = 8;
-	
-	@Transient
+
 	private static final Integer MAX_PASSWORD_LENGTH = 64;
 	
-	@Transient
 	private static final Integer MAX_EMAIL_LENGTH = 320;
 	
 	/**
@@ -94,7 +90,7 @@ public class User {
 	public void setEmail(String email) {
 		
 		if(email == null || email.length() == 0 || email.length() > MAX_EMAIL_LENGTH) {
-			throw new IllegalArgumentException("Email: " + email + " is not valid");
+			throw new IllegalArgumentException("Email is not valid");
 		}
 		
 		this.email = email;
@@ -111,7 +107,7 @@ public class User {
 	public void setPassword(String password) {
 		
 		if(password == null || password.length() < MIN_PASSWORD_LENGTH || password.length() > MAX_PASSWORD_LENGTH) {
-			throw new IllegalArgumentException("Password: " + password + " is not valid");
+			throw new IllegalArgumentException("Password is not valid");
 		}
 		
 		this.password = password; 
@@ -124,6 +120,10 @@ public class User {
 	 */
 	public List<Medication> getMedications(){
 		return new ArrayList<>(medications);
+	}
+	
+	public void setMedications(List<Medication> medications) {
+		this.medications = new ArrayList<>(medications);
 	}
 	
 	/**
