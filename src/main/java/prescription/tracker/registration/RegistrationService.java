@@ -53,13 +53,13 @@ public class RegistrationService {
 		User user = registrationRepository.findUserByConfirmationToken(confirmationToken).orElseThrow(() ->
 				new UserNotFoundException("User with confirmation token: " + confirmationToken + " not found."));
 		
-		if(user.getIsEnabled()) {
+		if(user.isEnabled()) {
 			throw new IllegalArgumentException("Account with email: " + user.getEmail() + " is already active.");
 		}
 		
 		user.setConfirmationToken(null);
 		user.setConfirmationTokenExpiration(null);
-		user.setIsEnabled(true);
+		user.setEnabled(true);
 		registrationRepository.save(user);
 		return user;
 	}
