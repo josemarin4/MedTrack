@@ -73,7 +73,7 @@ public class Medication {
 	}
 
 	public void setTimesPerDay(int timesPerDay) {
-		if (timesPerDay <= 0) {
+		if (timesPerDay < 0) {
 			throw new IllegalArgumentException("timesPerDay should be positive");
 		}
 		this.timesPerDay = timesPerDay;
@@ -81,21 +81,21 @@ public class Medication {
 	}
 
 	public void setDosage(double dosage) {
-		if (dosage <= 0) {
+		if (dosage < 0) {
 			throw new IllegalArgumentException("Dosage should be positive");
 		}
 		this.dosage = dosage;
 	}
 
 	public void setRefills(int refills) {
-		if (refills <= 0) {
+		if (refills < 0) {
 			throw new IllegalArgumentException("Refills should be positive");
 		}
 		this.refills = refills;
 	}
 
 	public void setQuantity(int quantity) {
-		if (quantity <= 0) {
+		if (quantity < 0) {
 			throw new IllegalArgumentException("Quantity should be positive");
 		}
 		this.quantity = quantity;
@@ -103,7 +103,7 @@ public class Medication {
 	}
 
 	public void setReminderDays(int reminderDays) {
-		if (reminderDays <= 0) {
+		if (reminderDays < 0) {
 			throw new IllegalArgumentException("Reminder days should be positive");
 		}
 		this.reminderDays = reminderDays;
