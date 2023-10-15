@@ -139,4 +139,12 @@ public class MedicationTest {
 		
 	}
 	
+	@Test
+	public void shouldFailSetNullLastRefilled() {
+		
+		assertThrows(IllegalStateException.class, () ->
+				testMedication.setLastRefilled(null));
+
+	}
+	
 }
