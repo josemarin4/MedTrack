@@ -23,7 +23,7 @@ import prescription.tracker.user.User;
 @Data
 @Entity
 public class Medication {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Setter(AccessLevel.NONE)
@@ -35,20 +35,20 @@ public class Medication {
 	private int timesPerDay;
 	private LocalDate lastRefilled;
 	private int reminderDays;
-	
+
 	@Setter(AccessLevel.NONE)
 	private LocalDate reminderDate;
-	
+
 	//Join column annotation specifies the foreign key column (user_id) 
 	//in the medication table that references the user table.
 	@ManyToOne
 	@JoinColumn(name = "userId")
 	private User user;
-	
+
 	public Medication() {
 		this.lastRefilled = LocalDate.now();
 	}
-	
+
 	public Medication(Long medId, String name, double dosage, int quantity, int refills, int timesPerDay,
 			LocalDate lastRefilled, int reminderDays, User user) {
 		this.medId = medId;
@@ -61,83 +61,78 @@ public class Medication {
 		setReminderDays(reminderDays);
 		this.user = user;
 	}
-	
-	
+
+
 	public void setName(String name) {
-		
+
 		if(name == null || name.length() == 0) {
 			throw new IllegalArgumentException("Invalid medication name");
 		}
-		
+
 		this.name = name;
 	}
+
 	public void setTimesPerDay(int timesPerDay) {
-		
-		if(timesPerDay > 0) {
-			this.timesPerDay = timesPerDay;
-			updateReminderDate();
-			
+		if (timesPerDay <= 0) {
+			throw new IllegalArgumentException("timesPerDay should be positive");
 		}
+		this.timesPerDay = timesPerDay;
+		updateReminderDate();
 	}
-	
+
 	public void setDosage(double dosage) {
-		
-		if(dosage > 0) {
-			this.dosage = dosage;
+		if (dosage <= 0) {
+			throw new IllegalArgumentException("Dosage should be positive");
 		}
+		this.dosage = dosage;
 	}
-	
+
 	public void setRefills(int refills) {
-		
-		if(refills > 0) {
-			this.refills = refills;
+		if (refills <= 0) {
+			throw new IllegalArgumentException("Refills should be positive");
 		}
+		this.refills = refills;
 	}
-	
+
 	public void setQuantity(int quantity) {
-		
-		if(quantity > 0) {
-			this.quantity = quantity;
-			updateReminderDate();
+		if (quantity <= 0) {
+			throw new IllegalArgumentException("Quantity should be positive");
 		}
+		this.quantity = quantity;
+		updateReminderDate();
 	}
+
 	public void setReminderDays(int reminderDays) {
-		
-		if(reminderDays > 0) {
-		
-			this.reminderDays = reminderDays;
-			updateReminderDate();
+		if (reminderDays <= 0) {
+			throw new IllegalArgumentException("Reminder days should be positive");
 		}
-		
+		this.reminderDays = reminderDays;
+		updateReminderDate();
 	}
-	
+
 	public void setLastRefilled(LocalDate lastRefilled) {
-		
-		if(lastRefilled == null) {
-			throw new IllegalStateException("Not a valid date");
+		if (lastRefilled == null) {
+			throw new IllegalArgumentException("Not a valid date");
 		}
-		
 		this.lastRefilled = lastRefilled;
 	}
-	
+
 	private void updateReminderDate() {
-		
+
 		if(lastRefilled != null && timesPerDay > 0) {
-		long amountToRemind = timesPerDay * reminderDays;
-		
-		if(amountToRemind > quantity) {
-			throw new IllegalStateException("Not enough medication to set reminder duration");
+
+			long amountToRemind = timesPerDay * reminderDays;
+
+			if(amountToRemind > quantity) {
+				throw new IllegalStateException("Not enough medication to set reminder duration");
+			}
+
+			long pillsLeft = quantity - amountToRemind;
+			long days = pillsLeft / timesPerDay;
+
+			reminderDate = ChronoUnit.DAYS.addTo(lastRefilled, days);
 		}
-		
-		if(timesPerDay == 0) {
-			throw new IllegalStateException("Times per day has to be positive");
-		}
-		long pillsLeft = quantity - amountToRemind;
-		long days = pillsLeft / timesPerDay;
-		
-		reminderDate = ChronoUnit.DAYS.addTo(lastRefilled, days);
-		}
-		
+
 	}
 
 
