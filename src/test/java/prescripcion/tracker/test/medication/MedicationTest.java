@@ -130,4 +130,13 @@ public class MedicationTest {
 		assertEquals(0, testMedication.getReminderDays());
 	}
 	
+	@Test
+	public void shouldSetValidLastRefilled() {
+		
+		testMedication.setLastRefilled(LocalDate.now());
+		
+		assertEquals(LocalDate.now(), testMedication.getLastRefilled());
+		
+	}
+	
 }
