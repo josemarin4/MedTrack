@@ -45,5 +45,12 @@ public class MedicationTest {
 				
 	}
 	
+	@Test
+	public void shouldSetValidName() {
+		testMedication.setName("name");
+		
+		assertEquals("name", testMedication.getName());
+	}
+	
 	
 }
