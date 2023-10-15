@@ -165,4 +165,13 @@ public class MedicationTest {
 				testMedication.setTimesPerDay(-10));
 	}
 	
+	@Test
+	public void shouldUpdateReminderDateCorreclty() {
+		
+		 testMedication.setTimesPerDay(3);
+	     testMedication.setQuantity(30);
+	     testMedication.setReminderDays(2);
+	     
+	     assertEquals(LocalDate.now(FIXED_CLOCK).plusDays(8), testMedication.getReminderDate());
+	}
 }
