@@ -2,6 +2,7 @@ package prescripcion.tracker.test.medication;
 import prescription.tracker.medication.Medication;
 import prescription.tracker.user.User;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,6 +11,13 @@ import java.util.ArrayList;
 
 public class MedicationTest {
 
+	private Medication testMedication;
+	
+	@BeforeEach
+	public void setUp() {
+		this.testMedication = new Medication();
+	}
+	
 	@Test
 	public void shouldCreateMedicationWithLastRefilledNow() {
 		Medication med = new Medication();
@@ -36,4 +44,6 @@ public class MedicationTest {
 		
 				
 	}
+	
+	
 }
