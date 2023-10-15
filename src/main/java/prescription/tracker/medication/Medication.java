@@ -122,7 +122,8 @@ public class Medication {
 	}
 	
 	private void updateReminderDate() {
-		if(lastRefilled != null) {
+		
+		if(lastRefilled != null && timesPerDay > 0) {
 		long amountToRemind = timesPerDay * reminderDays;
 		
 		if(amountToRemind > quantity) {
