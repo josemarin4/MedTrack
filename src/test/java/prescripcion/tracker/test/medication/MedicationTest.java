@@ -67,7 +67,7 @@ public class MedicationTest {
 	}
 	
 	@Test
-	public void shoulSetValidDosage() {
+	public void shouldSetValidDosage() {
 		
 		testMedication.setDosage(4.55);
 		
@@ -82,5 +82,12 @@ public class MedicationTest {
 		assertEquals(0, testMedication.getDosage());
 	}
 	
+	@Test
+	public void shouldSetValidRefill() {
+		
+		testMedication.setRefills(5);
+		
+		assertEquals(5, testMedication.getRefills());
+	}
 	
 }
