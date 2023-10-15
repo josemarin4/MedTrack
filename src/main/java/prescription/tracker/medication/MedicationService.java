@@ -93,14 +93,13 @@ public class MedicationService {
 		);
 		
 		// Update medication properties
-		med.setMedId(medication.getMedId());
 		med.setName(medication.getName());
 		med.setRefills(medication.getRefills());
 		med.setDosage(medication.getDosage());
 		med.setLastRefilled(medication.getLastRefilled());
 		med.setTimesPerDay(medication.getTimesPerDay());
-		med.setUser(medication.getUser());
 		med.setQuantity(medication.getQuantity());
+		med.setUser(medication.getUser());
 		medicationRepo.save(med);
 		
 		return med;
