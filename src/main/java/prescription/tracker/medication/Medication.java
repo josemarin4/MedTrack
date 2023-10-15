@@ -103,12 +103,11 @@ public class Medication {
 	}
 	public void setReminderDays(int reminderDays) {
 		
-		if(reminderDays <= 0) {
-			throw new IllegalArgumentException("Reminder days should be a positive number");
-		}
+		if(reminderDays > 0) {
 		
-		this.reminderDays = reminderDays;
-		updateReminderDate();
+			this.reminderDays = reminderDays;
+			updateReminderDate();
+		}
 		
 	}
 	
