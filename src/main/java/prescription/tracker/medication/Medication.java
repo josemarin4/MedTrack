@@ -39,8 +39,6 @@ public class Medication {
 	@Setter(AccessLevel.NONE)
 	private LocalDate reminderDate;
 	
-	private static final int DEFAULT_QUANTITY = 0;
-	
 	//Join column annotation specifies the foreign key column (user_id) 
 	//in the medication table that references the user table.
 	@ManyToOne
@@ -84,18 +82,24 @@ public class Medication {
 	
 	public void setDosage(double dosage) {
 		
-		this.dosage = dosage < 0 ? DEFAULT_QUANTITY : dosage;
+		if(dosage > 0) {
+			this.dosage = dosage;
+		}
 	}
 	
 	public void setRefills(int refills) {
 		
-		this.refills = refills < 0 ? DEFAULT_QUANTITY : refills;
+		if(refills > 0) {
+			this.refills = refills;
+		}
 	}
 	
 	public void setQuantity(int quantity) {
 		
-		this.quantity = quantity < 0 ? DEFAULT_QUANTITY : quantity;
-		updateReminderDate();
+		if(quantity > 0) {
+			this.quantity = quantity;
+			updateReminderDate();
+		}
 	}
 	public void setReminderDays(int reminderDays) {
 		
