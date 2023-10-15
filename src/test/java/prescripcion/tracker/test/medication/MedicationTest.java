@@ -106,4 +106,12 @@ public class MedicationTest {
 		assertEquals(30, testMedication.getQuantity());
 	}
 	
+	@Test
+	public void shouldKeepDefaultValueSetNegativeQuantity() {
+		
+		testMedication.setQuantity(-100);
+		
+		assertEquals(0, testMedication.getQuantity());
+	}
+	
 }
