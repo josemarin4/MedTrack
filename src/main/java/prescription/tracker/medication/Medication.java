@@ -45,10 +45,26 @@ public class Medication {
 	@JoinColumn(name = "userId")
 	private User user;
 
+	/**
+     * Default constructor initializing the 'lastRefilled' attribute to the current date.
+     */
 	public Medication() {
 		this.lastRefilled = LocalDate.now();
 	}
 
+	/**
+     * Constructor to initialize all attributes of the medication.
+     *
+     * @param medId         Unique identifier for the medication.
+     * @param name          Name of the medication.
+     * @param dosage        Dosage of the medication.
+     * @param quantity      Total quantity of the medication.
+     * @param refills       Number of refills available for the medication.
+     * @param timesPerDay   Frequency of medication intake daily.
+     * @param lastRefilled  Date when the medication was last refilled.
+     * @param reminderDays  Number of days before running out to trigger a reminder.
+     * @param user          The user associated with the medication.
+     */
 	public Medication(Long medId, String name, double dosage, int quantity, int refills, int timesPerDay,
 			LocalDate lastRefilled, int reminderDays, User user) {
 		this.medId = medId;
@@ -63,6 +79,12 @@ public class Medication {
 	}
 
 
+	/**
+     * Sets the medication name after validating it's neither null nor empty.
+     *
+     * @param name The desired name for the medication.
+     * @throws IllegalArgumentException if name is null or empty.
+     */
 	public void setName(String name) {
 
 		if(name == null || name.length() == 0) {
@@ -72,6 +94,12 @@ public class Medication {
 		this.name = name;
 	}
 
+	/**
+     * Sets the number of times per day the medication should be taken after validating the value.
+     *
+     * @param timesPerDay The desired intake frequency for the medication.
+     * @throws IllegalArgumentException if timesPerDay is negative.
+     */
 	public void setTimesPerDay(int timesPerDay) {
 		if (timesPerDay < 0) {
 			throw new IllegalArgumentException("timesPerDay should be positive");
@@ -80,6 +108,12 @@ public class Medication {
 		updateReminderDate();
 	}
 
+	/**
+     * Sets the dosage for the medication after validating the dosage value.
+     *
+     * @param dosage The desired dosage of the medication.
+     * @throws IllegalArgumentException if dosage is negative.
+     */
 	public void setDosage(double dosage) {
 		if (dosage < 0) {
 			throw new IllegalArgumentException("Dosage should be positive");
@@ -87,6 +121,12 @@ public class Medication {
 		this.dosage = dosage;
 	}
 
+	/**
+     * Sets the refills count for the medication after validating the refills value.
+     *
+     * @param refills The desired number of refills for the medication.
+     * @throws IllegalArgumentException if refills is negative.
+     */
 	public void setRefills(int refills) {
 		if (refills < 0) {
 			throw new IllegalArgumentException("Refills should be positive");
@@ -94,6 +134,12 @@ public class Medication {
 		this.refills = refills;
 	}
 
+	/**
+     * Sets the quantity of the medication after validating the quantity value.
+     *
+     * @param quantity The desired quantity for the medication.
+     * @throws IllegalArgumentException if quantity is negative.
+     */
 	public void setQuantity(int quantity) {
 		if (quantity < 0) {
 			throw new IllegalArgumentException("Quantity should be positive");
@@ -102,6 +148,12 @@ public class Medication {
 		updateReminderDate();
 	}
 
+	  /**
+     * Sets the reminder days for the medication after validating the value.
+     *
+     * @param reminderDays The desired days before running out to trigger a reminder.
+     * @throws IllegalArgumentException if reminderDays is negative.
+     */
 	public void setReminderDays(int reminderDays) {
 		if (reminderDays < 0) {
 			throw new IllegalArgumentException("Reminder days should be positive");
@@ -110,13 +162,26 @@ public class Medication {
 		updateReminderDate();
 	}
 
+	/**
+     * Sets the last refill date for the medication after validating the date.
+     *
+     * @param lastRefilled The date the medication was last refilled.
+     * @throws IllegalArgumentException if lastRefilled is null.
+     */
 	public void setLastRefilled(LocalDate lastRefilled) {
 		if (lastRefilled == null) {
 			throw new IllegalArgumentException("Not a valid date");
 		}
 		this.lastRefilled = lastRefilled;
 	}
-
+	
+	/**
+     * Updates the reminder date based on the quantity of medication left,
+     * the number of times the medication is taken per day, 
+     * and the number of reminder days set by the user.
+     *
+     * @throws IllegalStateException if not enough medication is available to set the reminder duration.
+     */
 	private void updateReminderDate() {
 
 		if(lastRefilled != null && timesPerDay > 0) {
