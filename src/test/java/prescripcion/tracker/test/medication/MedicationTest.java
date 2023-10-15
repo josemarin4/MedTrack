@@ -114,4 +114,12 @@ public class MedicationTest {
 		assertEquals(0, testMedication.getQuantity());
 	}
 	
+	@Test
+	public void shouldSetValidReminderDays() {
+		
+		testMedication.setReminderDays(10);
+		
+		assertEquals(10, testMedication.getReminderDays());
+	}
+	
 }
