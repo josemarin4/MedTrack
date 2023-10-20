@@ -28,8 +28,18 @@ public class UserRepositoryTest {
 			assertFalse(user.isPresent());
 		}
 		
+		@Test 
+		public void ShoulReturnEmptyWhenFindByEmptyEmail(){
+			
+			Optional<User> user = userRepository.findUserByEmail("");
+			
+			assertFalse(user.isPresent());
+			
+		}
+		
 		@Test
 		public void shouldReturnValidUserWhenFindbyEmail() {
+			
 			User testUser = new User();
 			testUser.setEmail("email@gmail.com");
 			
