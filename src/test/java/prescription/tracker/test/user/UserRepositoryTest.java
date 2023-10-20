@@ -29,12 +29,20 @@ public class UserRepositoryTest {
 		}
 		
 		@Test 
-		public void ShoulReturnEmptyWhenFindByEmptyEmail(){
+		public void shoulReturnEmptyWhenFindByEmptyEmail(){
 			
 			Optional<User> user = userRepository.findUserByEmail("");
 			
 			assertFalse(user.isPresent());
 			
+		}
+		
+		@Test
+		public void shouldReturnEmptyWhenFindByNullEmail() {
+			
+			Optional<User> user = userRepository.findUserByEmail(null);
+			
+			assertTrue(user.isEmpty());
 		}
 		
 		@Test
