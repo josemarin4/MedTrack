@@ -3,6 +3,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import prescription.tracker.exception.UserNotFoundException;
 import prescription.tracker.exception.UserNotVerifiedException;
+import prescription.tracker.medication.MedicationService;
 /**
  * Service class responsible for managing user data in the MedTrack application.
  * It provides methods for retrieving, registering, removing, and updating user information.
@@ -13,9 +14,10 @@ import prescription.tracker.exception.UserNotVerifiedException;
 public class UserService {
 	
 	private UserRepository userRepo;
+	private MedicationService medicationService;
 	private PasswordEncoder passEncoder;
 	
-	public UserService(UserRepository userRepo, PasswordEncoder passEncoder) {
+	public UserService(UserRepository userRepo, MedicationService medicationService, PasswordEncoder passEncoder) {
 		this.userRepo = userRepo;
 		this.passEncoder = passEncoder;
 	}
