@@ -1,4 +1,4 @@
-package prescripcion.tracker.test.user;
+package prescription.tracker.test.user;
 
 import prescription.tracker.medication.Medication;
 import prescription.tracker.user.User;
