@@ -9,6 +9,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import static org.junit.jupiter.api.Assertions.*;
 import prescription.tracker.user.User;
 import prescription.tracker.user.UserRepository;
+import org.hibernate.exception.ConstraintViolationException;
+
 
 @DataJpaTest
 public class UserRepositoryTest {
@@ -57,5 +59,20 @@ public class UserRepositoryTest {
 			
 			assertTrue(user.isPresent());
 			assertEquals("email@gmail.com", user.get().getEmail());
+		}
+		
+		@Test
+		public void shouldThrowExceptionSavingUserWithDuplicateEmail() {
+			
+			User testUser1 = new User();
+			testUser1.setEmail("email@gmail.com");
+			
+			User testUser2 = new User();
+			testUser2.setEmail("email@gmail.com");
+			
+			entityManager.persistAndFlush(testUser1);
+			
+			assertThrows(ConstraintViolationException.class, () ->
+					entityManager.persistAndFlush(testUser2));
 		}
 }
