@@ -74,6 +74,14 @@ public class UserService {
 		return userToUpdate;
 	}
 	
+	/**
+	 * Retrieves a user by their user ID.
+	 * 
+	 * @param userId The ID of the user to retrieve.
+	 * @return The retrieved user.
+	 * @throws UserNotFoundException if the user does not exists.
+	 * @throws UserNotVerifiedException if the user is not verified.
+	 */
 	private User findEnabledUserById(Long userId) {
 		
 		User user = userRepo.findById(userId).orElseThrow(() -> {
