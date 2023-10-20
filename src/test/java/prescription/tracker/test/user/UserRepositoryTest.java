@@ -16,10 +16,10 @@ import org.hibernate.exception.ConstraintViolationException;
 public class UserRepositoryTest {
 
 		@Autowired
-		TestEntityManager entityManager;
+		private TestEntityManager entityManager;
 		
 		@Autowired
-		UserRepository userRepository;
+		private UserRepository userRepository;
 		
 		
 		@Test
