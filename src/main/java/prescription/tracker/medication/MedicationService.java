@@ -3,6 +3,7 @@ package prescription.tracker.medication;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import prescription.tracker.exception.DuplicateMedicationException;
 import prescription.tracker.exception.MedicationNotFoundException;
@@ -28,6 +29,7 @@ public class MedicationService {
 	 * @param medication The medication to be added.
 	 * @throws DuplicateMedicationException if a medication with the same ID already exists.
 	 */
+	@Transactional
 	public void addMedication(Medication medication) {
 		
 		medicationRepo.findById(medication.getMedId()).orElseThrow(() -> 
@@ -71,6 +73,7 @@ public class MedicationService {
 	 * @return The deleted medication.
 	 * @throws MedicationNotFoundException if the medication with the specified ID is not found.
 	 */
+	@Transactional
 	public Medication deleteMedication(Long medId) {
 		Medication med = medicationRepo.findById(medId).orElseThrow(() -> 
 			new MedicationNotFoundException("Medication with ID: " + medId + " not found.")
@@ -87,6 +90,7 @@ public class MedicationService {
 	 * @return The updated medication.
 	 * @throws MedicationNotFoundException if the medication with the specified ID is not found.
 	 */
+	@Transactional
 	public Medication updateMedication(Medication medication) {
 		Medication med = medicationRepo.findById(medication.getMedId()).orElseThrow(() -> 
 			new MedicationNotFoundException("Medication with ID: " + medication.getMedId() + " not found.")
@@ -103,5 +107,11 @@ public class MedicationService {
 		medicationRepo.save(med);
 		
 		return med;
+	}
+	
+	@Transactional
+	public void deleteUserMedications(Long userId) {
+		
+		medicationRepo.deleteAllByUserId(userId);
 	}
 }
