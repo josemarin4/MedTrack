@@ -31,7 +31,7 @@ public class UserRepositoryTest {
 		}
 		
 		@Test 
-		public void shoulReturnEmptyWhenFindByEmptyEmail(){
+		public void shouldReturnEmptyWhenFindByEmptyEmail(){
 			
 			Optional<User> user = userRepository.findUserByEmail("");
 			
