@@ -26,8 +26,11 @@ public class UserService {
 	
 	/**
 	 * Retrieves a user by their user ID.
+	 * 
 	 * @param userId The ID of the user to retrieve.
-	 * @return The user if found, or throws a UserNotFoundException if not found.
+	 * @return The retrieved user.
+	 * @throws UserNotFoundException if the user does not exists.
+	 * @throws UserNotVerifiedException if the user is not verified.
 	 */
 	public User getUser(Long userId) {
 		User user = findEnabledUserById(userId);
@@ -37,8 +40,11 @@ public class UserService {
 	
 	/**
 	 * Removes a user by their user ID.
+	 * 
 	 * @param userId The ID of the user to remove.
-	 * @return The removed user if found, or throws a UserNotFoundException if not found.
+	 * @return The removed user.
+	 * @throws UserNotFoundException if the user does not exists.
+	 * @throws UserNotVerifiedException if the user is not verified.
 	 */
 	@Transactional
 	public User removeUser(Long userId) {
@@ -53,8 +59,11 @@ public class UserService {
 	
 	/**
 	 * Updates user information.
+	 * 
 	 * @param user The updated user information.
-	 * @return The updated user if found, or throws a UserNotFoundException if not found.
+	 * @return The updated user.
+	 * @throws UserNotFoundException if the user does not exists.
+	 * @throws UserNotVerifiedException if the user is not verified.
 	 */
 	@Transactional
 	public User updateUser(User user) {
