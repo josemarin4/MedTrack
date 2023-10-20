@@ -11,6 +11,7 @@ import static org.mockito.BDDMockito.*;
 import java.util.Collections;
 import java.util.Optional;
 import prescription.tracker.exception.UserNotFoundException;
+import prescription.tracker.exception.UserNotVerifiedException;
 import prescription.tracker.medication.MedicationService;
 import prescription.tracker.user.User;
 import prescription.tracker.user.UserRepository;
@@ -61,6 +62,18 @@ public class UserServiceTest {
 		
 		 assertThrows(UserNotFoundException.class, () ->
 					userService.getUser(1L));
+	}
+	
+	@Test
+	public void shouldThrowExceptionGetNotVerifiedUser() {
+		User user = new User(1L, "email@gmail.com", "password", false, Collections.emptyList());
+		
+		given(userRepository.findById(1L))
+				.willReturn(Optional.of(user));
+		
+		
+		assertThrows(UserNotVerifiedException.class, () ->
+				userService.getUser(1L));
 	}
 
 
