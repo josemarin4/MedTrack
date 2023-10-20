@@ -21,6 +21,7 @@ public class UserService {
 	
 	public UserService(UserRepository userRepo, MedicationService medicationService, PasswordEncoder passEncoder) {
 		this.userRepo = userRepo;
+		this.medicationService = medicationService;
 		this.passEncoder = passEncoder;
 	}
 	
