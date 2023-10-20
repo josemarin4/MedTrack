@@ -53,8 +53,12 @@ public class UserService {
 		
 		userToUpdate.setEmail(user.getEmail());
 		
-		String encodedPassword = passEncoder.encode(user.getPassword());
-		userToUpdate.setPassword(encodedPassword);
+		// If old password does not match new one; encode new one and update it.
+		if(!passEncoder.matches(user.getPassword(), userToUpdate.getPassword())) {
+			String encodedPassword = passEncoder.encode(user.getPassword());
+			userToUpdate.setPassword(encodedPassword);
+		}
+
 		userToUpdate.setMedications(user.getMedications());
 		
 		userRepo.save(userToUpdate);
