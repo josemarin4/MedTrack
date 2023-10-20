@@ -5,11 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import java.util.Collections;
 import java.util.Optional;
+import prescription.tracker.exception.UserNotFoundException;
 import prescription.tracker.medication.MedicationService;
 import prescription.tracker.user.User;
 import prescription.tracker.user.UserRepository;
@@ -23,7 +24,7 @@ public class UserServiceTest {
 	private UserRepository userRepository;
 
 	@Mock
-	 private MedicationService medicationService;
+	private MedicationService medicationService;
 
 	@InjectMocks
 	private UserService userService;
@@ -47,14 +48,19 @@ public class UserServiceTest {
 
 		//when
 		User result = userService.getUser(2L);
-		
+
 		// then
 		assertEquals(result, testUser);
 
 		verify(userRepository).findById(2L);
 
+	}
 
-
+	@Test
+	public void shouldThrowExceptionGetInexistentUser() {
+		
+		 assertThrows(UserNotFoundException.class, () ->
+					userService.getUser(1L));
 	}
 
 
