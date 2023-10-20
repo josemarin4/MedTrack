@@ -25,4 +25,12 @@ public interface MedicationRepository extends JpaRepository<Medication, Long> {
      */
 	@Query("SELECT m FROM Medication m WHERE m.user.userId = :userId")
 	Optional<List<Medication>> findAllByUserId(Long userId);
+	
+	/**
+	 * Deletes all medications associated with a specific user by their user ID.
+	 * 
+	 * @param userId The unique identifier of the user whose medications are to be deleted.
+	 */
+	@Query("DELETE FROM Medication m WHERE m.user.userId =:userId")
+	void deleteAllByUserId(Long userId);
 }
