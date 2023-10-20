@@ -51,7 +51,6 @@ public class UserService {
 	public User updateUser(User user) {
 		User userToUpdate = findEnabledUserById(user.getUserId());
 		
-		userToUpdate.setUserId(user.getUserId());
 		userToUpdate.setEmail(user.getEmail());
 		
 		String encodedPassword = passEncoder.encode(user.getPassword());
