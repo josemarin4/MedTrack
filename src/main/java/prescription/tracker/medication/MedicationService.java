@@ -109,6 +109,11 @@ public class MedicationService {
 		return med;
 	}
 	
+	/**
+	 * Removes all medications associated with the specified user ID.
+	 * 
+	 * @param userId The unique identifier of the user whose medications are to be deleted.
+	 */
 	@Transactional
 	public void deleteUserMedications(Long userId) {
 		
