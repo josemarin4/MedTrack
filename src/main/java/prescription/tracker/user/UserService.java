@@ -2,6 +2,7 @@ package prescription.tracker.user;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import prescription.tracker.exception.UserNotFoundException;
+import prescription.tracker.exception.UserNotVerifiedException;
 /**
  * Service class responsible for managing user data in the MedTrack application.
  * It provides methods for retrieving, registering, removing, and updating user information.
@@ -64,5 +65,18 @@ public class UserService {
 		
 		userRepo.save(userToUpdate);
 		return userToUpdate;
+	}
+	
+	private User findEnabledUserById(Long userId) {
+		
+		User user = userRepo.findById(userId).orElseThrow(() -> {
+			return new UserNotFoundException("User with ID: " + userId + " not found.");
+		});
+		
+		if(!user.isEnabled()) {
+			throw new UserNotVerifiedException("Please confirm your account using the confirmation email sent to: " + user.getEmail() + ".");
+		}
+		
+		return user;
 	}
 }
