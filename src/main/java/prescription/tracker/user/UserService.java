@@ -1,6 +1,8 @@
 package prescription.tracker.user;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import prescription.tracker.exception.UserNotFoundException;
 import prescription.tracker.exception.UserNotVerifiedException;
 import prescription.tracker.medication.MedicationService;
@@ -38,8 +40,12 @@ public class UserService {
 	 * @param userId The ID of the user to remove.
 	 * @return The removed user if found, or throws a UserNotFoundException if not found.
 	 */
+	@Transactional
 	public User removeUser(Long userId) {
 		User user = findEnabledUserById(userId);
+		
+		// Ensure to delete all medications associated with specified user ID.
+		medicationService.deleteUserMedications(userId);
 		
 		userRepo.deleteById(userId);
 		return user;
