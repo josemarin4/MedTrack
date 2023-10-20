@@ -27,4 +27,17 @@ public class UserRepositoryTest {
 			
 			assertFalse(user.isPresent());
 		}
+		
+		@Test
+		public void shouldReturnValidUserWhenFindbyEmail() {
+			User testUser = new User();
+			testUser.setEmail("email@gmail.com");
+			
+			entityManager.persistAndFlush(testUser);
+			
+			Optional<User> user = userRepository.findUserByEmail("email@gmail.com");
+			
+			assertTrue(user.isPresent());
+			assertEquals("email@gmail.com", user.get().getEmail());
+		}
 }
