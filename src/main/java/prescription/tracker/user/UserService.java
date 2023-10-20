@@ -56,6 +56,7 @@ public class UserService {
 	 * @param user The updated user information.
 	 * @return The updated user if found, or throws a UserNotFoundException if not found.
 	 */
+	@Transactional
 	public User updateUser(User user) {
 		User userToUpdate = findEnabledUserById(user.getUserId());
 		
