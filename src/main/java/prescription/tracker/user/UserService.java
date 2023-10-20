@@ -26,9 +26,8 @@ public class UserService {
 	 * @return The user if found, or throws a UserNotFoundException if not found.
 	 */
 	public User getUser(Long userId) {
-		User user = userRepo.findById(userId).orElseThrow(() -> {
-			return new UserNotFoundException("User with ID: " + userId + " not found.");
-		});
+		User user = findEnabledUserById(userId);
+		
 		return user;
 	}
 	
@@ -38,9 +37,7 @@ public class UserService {
 	 * @return The removed user if found, or throws a UserNotFoundException if not found.
 	 */
 	public User removeUser(Long userId) {
-		User user = userRepo.findById(userId).orElseThrow(() -> {
-			return new UserNotFoundException("User with ID: " + userId + " not found.");
-		});
+		User user = findEnabledUserById(userId);
 		
 		userRepo.deleteById(userId);
 		return user;
@@ -52,9 +49,7 @@ public class UserService {
 	 * @return The updated user if found, or throws a UserNotFoundException if not found.
 	 */
 	public User updateUser(User user) {
-		User userToUpdate = userRepo.findById(user.getUserId()).orElseThrow(() -> {
-			return new UserNotFoundException("User with ID: " + user.getUserId() + " not found.");
-		});
+		User userToUpdate = findEnabledUserById(user.getUserId());
 		
 		userToUpdate.setUserId(user.getUserId());
 		userToUpdate.setEmail(user.getEmail());
