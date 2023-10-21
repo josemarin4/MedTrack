@@ -58,7 +58,9 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void shouldThrowExceptionGetInexistentUser() {
+	public void shouldThrowExceptionWhenUserNotFound() {
+		
+		given(userRepository.findById(1L)).willReturn(Optional.empty());
 		
 		 assertThrows(UserNotFoundException.class, () ->
 					userService.getUser(1L));
@@ -74,6 +76,21 @@ public class UserServiceTest {
 		
 		assertThrows(UserNotVerifiedException.class, () ->
 				userService.getUser(1L));
+	}
+	
+	@Test
+	public void shouldRemoveValidUser() {
+		
+		given(userRepository.findById(2L)).willReturn(Optional.of(testUser));
+		
+		User removedUser = userService.removeUser(2L);
+		
+		assertEquals(testUser, removedUser);
+		
+		verify(userRepository).deleteById(2L);
+		verify(medicationService).deleteUserMedications(2L);
+		
+		
 	}
 
 
