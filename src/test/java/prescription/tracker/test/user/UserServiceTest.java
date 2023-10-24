@@ -17,6 +17,7 @@ import prescription.tracker.user.User;
 import prescription.tracker.user.UserRepository;
 import prescription.tracker.user.UserService;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -26,6 +27,9 @@ public class UserServiceTest {
 
 	@Mock
 	private MedicationService medicationService;
+	
+	@Mock
+	private PasswordEncoder passwordEncoder;
 
 	@InjectMocks
 	private UserService userService;
@@ -92,7 +96,22 @@ public class UserServiceTest {
 		
 		
 	}
-
+	
+	@Test
+	public void shouldUpdateValidUserButNotPassword() {
+		User update = new User(2L, "newEmail@gmail.com", "password", true, Collections.emptyList());
+		
+		given(userRepository.findById(2L)).willReturn(Optional.of(testUser));
+		
+		User updatedUser = userService.updateUser(update);
+		
+		assertEquals("newEmail@gmail.com", updatedUser.getEmail());
+		assertEquals("password", updatedUser.getPassword());
+		assertTrue(updatedUser.getMedications().size() == 0);
+		
+		verify(userRepository).findById(2L);
+		verify(userService).updateUser(update);
+	}
 
 
 }
