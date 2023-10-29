@@ -40,7 +40,14 @@ public class UserServiceTest {
 	@BeforeEach
 	public void setUp() {
 
-		testUser = new User(2L, "email@gmail.com", "password", true, Collections.emptyList());
+		testUser = new User(2L, "email@gmail.com", "passwordpassword", 
+				true, Collections.emptyList());
+		
+		// encoced password
+		given(passwordEncoder.encode("passwordpassword"))
+		.willReturn("$2y$10$ASANMXXDgld7EkZrlePg..LVp6I/VqFI3KTkOESnb6YK4gQwqWv0C");
+		
+		testUser.setPassword(passwordEncoder.encode(testUser.getPassword()));
 
 	}
 
@@ -68,6 +75,8 @@ public class UserServiceTest {
 		
 		 assertThrows(UserNotFoundException.class, () ->
 					userService.getUser(1L));
+		 
+		 verify(userRepository).findById(1L);
 	}
 	
 	@Test
@@ -80,6 +89,9 @@ public class UserServiceTest {
 		
 		assertThrows(UserNotVerifiedException.class, () ->
 				userService.getUser(1L));
+		
+		verify(userRepository).findById(1L);
+
 	}
 	
 	@Test
@@ -91,26 +103,33 @@ public class UserServiceTest {
 		
 		assertEquals(testUser, removedUser);
 		
+		verify(userRepository).findById(2L);
 		verify(userRepository).deleteById(2L);
 		verify(medicationService).deleteUserMedications(2L);
-		
-		
+
 	}
 	
 	@Test
 	public void shouldUpdateValidUserButNotPassword() {
-		User update = new User(2L, "newEmail@gmail.com", "password", true, Collections.emptyList());
 		
+		User update = new User(2L, "newEmail@gmail.com", "passwordpassword", true, Collections.emptyList());
+		String hashedPassword = "$2y$10$ASANMXXDgld7EkZrlePg..LVp6I/VqFI3KTkOESnb6YK4gQwqWv0C";
 		given(userRepository.findById(2L)).willReturn(Optional.of(testUser));
+		given(passwordEncoder.matches("passwordpassword", hashedPassword))
+			.willReturn(true);
 		
 		User updatedUser = userService.updateUser(update);
 		
 		assertEquals("newEmail@gmail.com", updatedUser.getEmail());
-		assertEquals("password", updatedUser.getPassword());
+		assertEquals(hashedPassword, updatedUser.getPassword());
 		assertTrue(updatedUser.getMedications().size() == 0);
 		
 		verify(userRepository).findById(2L);
-		verify(userService).updateUser(update);
+		verify(userRepository).save(any(User.class));
+		verify(passwordEncoder).matches("passwordpassword", hashedPassword);
+		verify(passwordEncoder).encode(anyString());
+		
+		
 	}
 
 
