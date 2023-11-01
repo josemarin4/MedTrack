@@ -3,6 +3,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import prescription.tracker.exception.DuplicateUserException;
 import prescription.tracker.exception.UserNotFoundException;
 import prescription.tracker.exception.UserNotVerifiedException;
 import prescription.tracker.medication.MedicationService;
@@ -65,12 +66,16 @@ public class UserService {
 	 * @param user The updated user information.
 	 * @return The updated user.
 	 * @throws UserNotFoundException if the user does not exists.
+	 * @throws DuplicateUserException if email already exists in DB.
 	 * @throws UserNotVerifiedException if the user is not verified.
 	 */
 	@Transactional
 	public User updateUser(User user) {
 		User userToUpdate = findEnabledUserById(user.getUserId());
 		
+		if(userRepo.findUserByEmail(user.getEmail()).isPresent()){
+			throw new DuplicateUserException("Email: " + user.getEmail() + " is already in use.");
+		}
 		userToUpdate.setEmail(user.getEmail());
 		
 		// If old password does not match new one; encode new one and update it.
