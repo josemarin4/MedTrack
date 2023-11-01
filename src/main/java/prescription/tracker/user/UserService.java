@@ -59,7 +59,8 @@ public class UserService {
 	}
 	
 	/**
-	 * Updates user information.
+	 * Updates user information. Updates password only if it's different
+	 * from the stored one.
 	 * 
 	 * @param user The updated user information.
 	 * @return The updated user.
