@@ -1,4 +1,6 @@
 package prescription.tracker.user;
+import java.util.Optional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,7 +75,8 @@ public class UserService {
 	public User updateUser(User user) {
 		User userToUpdate = findEnabledUserById(user.getUserId());
 		
-		if(userRepo.findUserByEmail(user.getEmail()).isPresent()){
+		Optional<User> userFoundByEmail = userRepo.findUserByEmail(user.getEmail());
+		if(userFoundByEmail.isPresent() && userFoundByEmail.get().getUserId() != user.getUserId()){
 			throw new DuplicateUserException("Email: " + user.getEmail() + " is already in use.");
 		}
 		userToUpdate.setEmail(user.getEmail());
