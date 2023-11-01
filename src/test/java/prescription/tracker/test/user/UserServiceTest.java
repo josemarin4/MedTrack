@@ -53,15 +53,15 @@ public class UserServiceTest {
 
 	@Test
 	public void shouldGetValidUser() {
-
-		//given
+		
+		// Arrange
 		given(userRepository.findById(2L))
 		.willReturn(Optional.of(testUser));
 
-		//when
+		// Act
 		User result = userService.getUser(2L);
 
-		// then
+		// Assert
 		assertEquals(result, testUser);
 
 		verify(userRepository).findById(2L);
@@ -110,10 +110,11 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void shouldUpdateValidUserButNotPassword() {
+	public void shouldUpdateUserWithoutChangingPassword() {
 		
 		User update = new User(2L, "newEmail@gmail.com", "passwordpassword", true, Collections.emptyList());
 		String hashedPassword = "$2y$10$ASANMXXDgld7EkZrlePg..LVp6I/VqFI3KTkOESnb6YK4gQwqWv0C";
+		
 		given(userRepository.findById(2L)).willReturn(Optional.of(testUser));
 		given(passwordEncoder.matches("passwordpassword", hashedPassword))
 			.willReturn(true);
@@ -127,7 +128,31 @@ public class UserServiceTest {
 		verify(userRepository).findById(2L);
 		verify(userRepository).save(any(User.class));
 		verify(passwordEncoder).matches("passwordpassword", hashedPassword);
-		verify(passwordEncoder).encode(anyString());
+			
+	}
+	
+	@Test 
+	void shouldUpdateUserPassword() {
+		
+		User update = new User(2L, "email@gmail.com", "newPassword", 
+				true, Collections.emptyList());
+		String hashedPassword = "$2y$10$ASANMXXDgld7EkZrlePg..LVp6I/VqFI3KTkOESnb6YK4gQwqWv0C";
+		String hashedNewPassword = "$2a$10$vRpWhTnza9Sz0gseZBucYOh3XDweyTexUn3wIiAtCkjGyGwlzTNp6";
+		
+		given(userRepository.findById(2L)).willReturn(Optional.of(testUser));
+		given(passwordEncoder.matches("newPassword", hashedPassword)).willReturn(false);
+		given(passwordEncoder.encode("newPassword"))
+				.willReturn(hashedNewPassword);
+		
+		User updatedUser = userService.updateUser(update);
+		
+		assertEquals("email@gmail.com", updatedUser.getEmail());
+		assertEquals(hashedNewPassword, updatedUser.getPassword());
+		
+		verify(userRepository).findById(2L);
+		verify(userRepository).save(any(User.class));
+		verify(passwordEncoder).matches("newPassword", hashedPassword);
+		verify(passwordEncoder).encode("newPassword");
 		
 		
 	}
