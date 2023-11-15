@@ -2,6 +2,7 @@ package prescription.tracker.test.medication;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,16 @@ public class MedicationRepositoryTest {
 		
 		assertEquals(user.getMedications(), medications);
 				
+	}
+	
+	@Test
+	public void shouldFailFindMedicationsForNonExistentUser() {
+		
+		Optional<List<Medication>> medications = medicationRepository.findAllByUserId(1L);
+		
+		assertTrue(medications.isPresent()
+					&& medications.get().isEmpty());
+		
 	}
 	
 	@Test
