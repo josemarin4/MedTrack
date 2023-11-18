@@ -6,7 +6,7 @@ import static org.mockito.Mockito.verify;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Optional;
-
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import prescription.tracker.exception.DuplicateMedicationException;
 import prescription.tracker.medication.Medication;
 import prescription.tracker.medication.MedicationRepository;
 import prescription.tracker.medication.MedicationService;
@@ -39,6 +40,7 @@ public class MedicationServiceTest {
 		
 		given(medicationRepository.findById(1L)).willReturn(Optional.of(medication));
 	}
+	
 	@Test
 	public void shouldAddMedication() {
 		
@@ -48,6 +50,20 @@ public class MedicationServiceTest {
 		
 		verify(medicationRepository).findById(1L);
 		verify(medicationRepository).save(medication);
+		
+	}
+	
+	@Test
+	public void shouldFailAddingDuplicateMedication() {
+		
+		given(medicationRepository.findById(1L)).willReturn(Optional.empty());
+		
+		Medication duplicateMed = new Medication(1L, "BUP", 3.4, 30, 2, 2, LocalDate.now(), 7, user);
+		
+		assertThrows(DuplicateMedicationException.class, () ->
+				medicationService.addMedication(duplicateMed));
+		
+		verify(medicationRepository).findById(1L);
 		
 	}
 
