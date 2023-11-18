@@ -171,4 +171,16 @@ public class MedicationServiceTest {
 		verify(medicationRepository).findById(1L);
 		
 	}
+	
+	@Test
+	public void shouldFailUpdateNonExistentMedication() {
+		
+		given(medicationRepository.findById(2L)).willReturn(Optional.empty());
+		
+		assertThrows(MedicationNotFoundException.class, () ->
+					medicationService
+					.updateMedication(new Medication(2L, "BUP", 3.4, 30, 2, 2, LocalDate.now(), 7, user)));
+		
+		verify(medicationRepository).findById(2L);
+	}
 }
