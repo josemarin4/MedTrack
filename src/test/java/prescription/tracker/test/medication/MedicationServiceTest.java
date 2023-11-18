@@ -1,8 +1,10 @@
 package prescription.tracker.test.medication;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -31,15 +33,21 @@ public class MedicationServiceTest {
 	
 	@BeforeEach
 	public void setUp() {
-		User user = new User(2L, "email@email.com", "password", true, null);
+		user = new User(2L, "email@email.com", "password", true, Collections.emptyList());
 		
-		Medication medication = new Medication(1L, "BUP", 3.4, 30, 2, 2, LocalDate.now(), 7, user);
+		medication = new Medication(1L, "BUP", 3.4, 30, 2, 2, LocalDate.now(), 7, user);
 		
 		given(medicationRepository.findById(1L)).willReturn(Optional.of(medication));
 	}
 	@Test
 	public void shouldAddMedication() {
 		
+		given(medicationRepository.save(medication)).willReturn(medication);
+		
+		medicationService.addMedication(medication);
+		
+		verify(medicationRepository).findById(1L);
+		verify(medicationRepository).save(medication);
 		
 	}
 
