@@ -1,12 +1,12 @@
 package prescription.tracker.test.medication;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -40,13 +40,12 @@ public class MedicationServiceTest {
 		user = new User(2L, "email@email.com", "password", true, Collections.emptyList());
 		
 		medication = new Medication(1L, "BUP", 3.4, 30, 2, 2, LocalDate.now(), 7, user);
-		
-		given(medicationRepository.findById(1L)).willReturn(Optional.of(medication));
 	}
 	
 	@Test
 	public void shouldAddMedication() {
-		
+
+		given(medicationRepository.findById(1L)).willReturn(Optional.of(medication));
 		given(medicationRepository.save(medication)).willReturn(medication);
 		
 		medicationService.addMedication(medication);
@@ -72,6 +71,8 @@ public class MedicationServiceTest {
 	
 	@Test
 	public void shouldGetValidMedication() {
+
+		given(medicationRepository.findById(1L)).willReturn(Optional.of(medication));
 		
 		Medication med = medicationService.getMedication(1L);
 		
@@ -93,5 +94,18 @@ public class MedicationServiceTest {
 				
 		
 	}
-
+	
+	@Test
+	public void shouldGetUserMedication() {
+	
+		given(medicationRepository.findAllByUserId(2L))
+					.willReturn(Optional.of(List.of(medication)));
+		
+		List<Medication> med = medicationService.getUserMedication(2L);
+		
+		assertNotNull(med);
+		assertEquals(1L, med.get(0).getMedId());
+		
+		verify(medicationRepository).findAllByUserId(2L);
+	}
 }
