@@ -120,4 +120,20 @@ public class MedicationServiceTest {
 		verify(medicationRepository).findAllByUserId(2L);
 		
 	}
+	
+	@Test
+	public void shouldDeleteMedication() {
+		
+		given(medicationRepository.findById(1L)).willReturn(Optional.of(medication));
+		
+		Medication med = medicationService.deleteMedication(1L);
+		
+		assertNotNull(med);
+		assertEquals(1L, med.getMedId());
+		assertEquals(medication, med);
+		
+		verify(medicationRepository).findById(1L);
+		verify(medicationRepository).deleteById(1L);
+	
+	}
 }
