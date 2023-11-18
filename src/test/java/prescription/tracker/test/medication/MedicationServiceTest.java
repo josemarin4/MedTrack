@@ -147,4 +147,28 @@ public class MedicationServiceTest {
 		
 		verify(medicationRepository).findById(1L);
 	}
+	
+	@Test
+	public void shouldUpdateMedication() {
+	
+		Medication update = new Medication(1L, "PAR", 8.6, 20, 1, 1, LocalDate.now(), 7, user);
+		
+		given(medicationRepository.findById(1L)).willReturn(Optional.of(medication));
+		
+		Medication updatedMed = medicationService.updateMedication(update);
+		
+		assertNotNull(updatedMed);
+		assertEquals("PAR", updatedMed.getName());
+		assertEquals(8.6, updatedMed.getDosage());
+		assertEquals(20, updatedMed.getQuantity());
+		assertEquals(1, updatedMed.getRefills());
+		assertEquals(1, updatedMed.getTimesPerDay());
+		assertEquals(7, updatedMed.getReminderDays());
+		assertEquals(LocalDate.now(), updatedMed.getLastRefilled());
+		assertEquals(2L, updatedMed.getUser().getUserId());
+		assertEquals(user, updatedMed.getUser());
+		
+		verify(medicationRepository).findById(1L);
+		
+	}
 }
