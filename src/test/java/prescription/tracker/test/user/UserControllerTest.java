@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import prescription.tracker.exception.UserNotFoundException;
 import prescription.tracker.user.User;
 import prescription.tracker.user.UserController;
 import prescription.tracker.user.UserService;
@@ -42,6 +43,18 @@ public class UserControllerTest {
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 			.andExpect(content().json(new ObjectMapper().writeValueAsString(user)));
 			
+	}
+	
+	@Test
+	public void shouldFailGetInvalidUser() throws Exception{
+		
+		given(userService.getUser(2L)).willThrow(new UserNotFoundException("User not found!"));
+		
+		mockMvc.perform(get("/api/user/{userId}", 2L))
+		.andExpect(status().isBadRequest())
+		.andExpect(content().contentType("text/plain;charset=UTF-8"))
+		.andExpect(content().string("User not found!"));
+		
 	}
 
 }
