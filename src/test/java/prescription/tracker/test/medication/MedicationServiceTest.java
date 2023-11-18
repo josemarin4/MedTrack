@@ -6,7 +6,7 @@ import static org.mockito.Mockito.verify;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Optional;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -65,6 +65,17 @@ public class MedicationServiceTest {
 		
 		verify(medicationRepository).findById(1L);
 		
+	}
+	
+	@Test
+	public void shouldGetValidMedication() {
+		
+		Medication med = medicationService.getMedication(1L);
+		
+		assertEquals(1L, med.getMedId());
+		assertEquals(medication, med);
+		
+		verify(medicationRepository).findById(1L);
 	}
 
 }
