@@ -1,12 +1,14 @@
 package prescription.tracker.test.medication;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Optional;
-import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import prescription.tracker.exception.DuplicateMedicationException;
+import prescription.tracker.exception.MedicationNotFoundException;
 import prescription.tracker.medication.Medication;
 import prescription.tracker.medication.MedicationRepository;
 import prescription.tracker.medication.MedicationService;
@@ -76,6 +79,19 @@ public class MedicationServiceTest {
 		assertEquals(medication, med);
 		
 		verify(medicationRepository).findById(1L);
+	}
+	
+	@Test
+	public void shouldFailGetNonExistentMedication(){
+		
+		given(medicationRepository.findById(1L)).willReturn(Optional.empty());
+		
+		assertThrows(MedicationNotFoundException.class, () ->
+				medicationService.getMedication(1L));
+		
+		verify(medicationRepository).findById(1L);
+				
+		
 	}
 
 }
