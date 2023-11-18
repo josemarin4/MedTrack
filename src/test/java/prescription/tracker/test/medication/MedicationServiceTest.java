@@ -108,4 +108,16 @@ public class MedicationServiceTest {
 		
 		verify(medicationRepository).findAllByUserId(2L);
 	}
+	
+	@Test
+	public void shouldFailGetNonExistentUserMedication() {
+		
+		given(medicationRepository.findAllByUserId(2L)).willReturn(Optional.empty());
+		
+		assertThrows(MedicationNotFoundException.class, () ->
+					medicationService.getUserMedication(2L));
+		
+		verify(medicationRepository).findAllByUserId(2L);
+		
+	}
 }
