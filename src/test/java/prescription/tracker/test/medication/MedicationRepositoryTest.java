@@ -3,7 +3,6 @@ package prescription.tracker.test.medication;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -85,6 +84,14 @@ public class MedicationRepositoryTest {
 		
 		assertEquals(Collections.EMPTY_LIST, medications);
 		
+	}
+	
+	@Test
+	public void shouldFailDeleteAllMedicationsFromNonExistentUser() {
+		
+		medicationRepository.deleteAllByUserId(1L);
+		
+		assertTrue(medicationRepository.findAllByUserId(1L).get().isEmpty());
 	}
 
 }
