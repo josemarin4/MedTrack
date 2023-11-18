@@ -136,4 +136,15 @@ public class MedicationServiceTest {
 		verify(medicationRepository).deleteById(1L);
 	
 	}
+	
+	@Test
+	public void shouldFailDeleteNonExistentMedication() {
+		
+		given(medicationRepository.findById(1L)).willReturn(Optional.empty());
+		
+		assertThrows(MedicationNotFoundException.class, () ->
+					medicationService.deleteMedication(1L));
+		
+		verify(medicationRepository).findById(1L);
+	}
 }
