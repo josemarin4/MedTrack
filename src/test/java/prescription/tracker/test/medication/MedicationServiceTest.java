@@ -183,4 +183,12 @@ public class MedicationServiceTest {
 		
 		verify(medicationRepository).findById(2L);
 	}
+	
+	@Test
+	public void shouldDeleteUserMedications() {
+		
+		medicationService.deleteUserMedications(user.getUserId());
+		
+		verify(medicationRepository).deleteAllByUserId(user.getUserId());
+	}
 }
