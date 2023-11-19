@@ -32,9 +32,11 @@ public class MedicationService {
 	@Transactional
 	public void addMedication(Medication medication) {
 		
-		medicationRepo.findById(medication.getMedId()).orElseThrow(() -> 
-			new DuplicateMedicationException("Medication with ID: " + medication.getMedId() + " already exists.")
-		);
+		boolean medicationExists = medicationRepo.findById(medication.getMedId()).isPresent();
+		
+		if(medicationExists) {
+			throw new DuplicateMedicationException("Medication with ID: " + medication.getMedId() + " already exists.");
+		}
 		
 		medicationRepo.save(medication);
 	}
