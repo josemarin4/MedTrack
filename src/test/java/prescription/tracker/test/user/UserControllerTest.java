@@ -92,7 +92,7 @@ public class UserControllerTest {
 		User user = new User(2L, "email@email.com", "password", true, Collections.emptyList());
 		given(userService.updateUser(user)).willReturn(user);
 		
-		mockMvc.perform(put("/api/user/update/{userId}", 2L)
+		mockMvc.perform(put("/api/user/update")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new ObjectMapper().writeValueAsString(user)))
 			.andExpect(status().isOk())

@@ -31,7 +31,7 @@ public class UserController {
 		return ResponseEntity.ok(userService.removeUser(userId));
 	}
 	
-	@PutMapping("/update/{userId}")
+	@PutMapping("/update")
 	public ResponseEntity<User> updateUser(@RequestBody User user){
 		
 		return ResponseEntity.ok(userService.updateUser(user));
