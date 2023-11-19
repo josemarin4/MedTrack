@@ -3,6 +3,7 @@ package prescription.tracker.test.user;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -83,6 +84,21 @@ public class UserControllerTest {
 		.andExpect(status().isBadRequest())
 		.andExpect(content().contentType("text/plain;charset=UTF-8"))
 		.andExpect(content().string("User not found!"));
+		
+	}
+	
+	@Test
+	public void shouldUpdateUser() throws Exception {
+		User user = new User(2L, "email@email.com", "password", true, Collections.emptyList());
+		given(userService.updateUser(user)).willReturn(user);
+		
+		mockMvc.perform(put("/api/user/update/{userId}", 2L)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new ObjectMapper().writeValueAsString(user)))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(content().json(new ObjectMapper().writeValueAsString(user)));
+		
 		
 	}
 	
