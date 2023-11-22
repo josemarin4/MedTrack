@@ -3,6 +3,7 @@ package prescription.tracker.medication;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import prescription.tracker.exception.DuplicateMedicationException;
 import prescription.tracker.exception.MedicationNotFoundException;
@@ -28,11 +29,14 @@ public class MedicationService {
 	 * @param medication The medication to be added.
 	 * @throws DuplicateMedicationException if a medication with the same ID already exists.
 	 */
+	@Transactional
 	public void addMedication(Medication medication) {
 		
-		medicationRepo.findById(medication.getMedId()).orElseThrow(() -> 
-			new DuplicateMedicationException("Medication with ID: " + medication.getMedId() + " already exists.")
-		);
+		boolean medicationExists = medicationRepo.findById(medication.getMedId()).isPresent();
+		
+		if(medicationExists) {
+			throw new DuplicateMedicationException("Medication with ID: " + medication.getMedId() + " already exists.");
+		}
 		
 		medicationRepo.save(medication);
 	}
@@ -71,6 +75,7 @@ public class MedicationService {
 	 * @return The deleted medication.
 	 * @throws MedicationNotFoundException if the medication with the specified ID is not found.
 	 */
+	@Transactional
 	public Medication deleteMedication(Long medId) {
 		Medication med = medicationRepo.findById(medId).orElseThrow(() -> 
 			new MedicationNotFoundException("Medication with ID: " + medId + " not found.")
@@ -87,22 +92,33 @@ public class MedicationService {
 	 * @return The updated medication.
 	 * @throws MedicationNotFoundException if the medication with the specified ID is not found.
 	 */
+	@Transactional
 	public Medication updateMedication(Medication medication) {
 		Medication med = medicationRepo.findById(medication.getMedId()).orElseThrow(() -> 
 			new MedicationNotFoundException("Medication with ID: " + medication.getMedId() + " not found.")
 		);
 		
 		// Update medication properties
-		med.setMedId(medication.getMedId());
 		med.setName(medication.getName());
 		med.setRefills(medication.getRefills());
 		med.setDosage(medication.getDosage());
 		med.setLastRefilled(medication.getLastRefilled());
 		med.setTimesPerDay(medication.getTimesPerDay());
-		med.setUserId(medication.getUserId());
 		med.setQuantity(medication.getQuantity());
+		med.setUser(medication.getUser());
 		medicationRepo.save(med);
 		
 		return med;
+	}
+	
+	/**
+	 * Removes all medications associated with the specified user ID.
+	 * 
+	 * @param userId The unique identifier of the user whose medications are to be deleted.
+	 */
+	@Transactional
+	public void deleteUserMedications(Long userId) {
+		
+		medicationRepo.deleteAllByUserId(userId);
 	}
 }

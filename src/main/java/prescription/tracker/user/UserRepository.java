@@ -21,6 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param username The unique username of the user to be retrieved.
      * @return An optional User object representing the user with the specified username.
      */
-    Optional<User> findUserByUsername(String username);
+    Optional<User> findUserByEmail(String username);
 }
 
